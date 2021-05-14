@@ -14,6 +14,14 @@
           <v-icon left>
             mdi-home
           </v-icon>
+          일기장
+        </v-chip>
+      </v-list-item>
+      <v-list-item>
+        <v-chip draggable x-large>
+          <v-icon left>
+            mdi-home
+          </v-icon>
           메모
         </v-chip>
       </v-list-item>
@@ -56,14 +64,15 @@
     height="600px"
     @click="someMethod">
     </v-card>
-  <add-module></add-module>
+    <calendar-module></calendar-module>
   </section>
 </template>
 <script>
-import AddModule from './addModule.vue'
+import CalendarModule from './CalendarModule.vue'
+
 export default {
   name: 'helloworld',
-  components: { AddModule },
+  components: { CalendarModule },
   methods: {
     someMethod (event) {
       // clientX/Y gives the coordinates relative to the viewport in CSS pixels.
