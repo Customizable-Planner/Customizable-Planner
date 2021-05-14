@@ -20,7 +20,6 @@
               </v-list-item-icon>
               <v-list-item-title>Home</v-list-item-title>
             </v-list-item>
-
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-account</v-icon>
@@ -57,7 +56,7 @@
 
 <script>
 export default {
-  name: 'todo',
+  name: 'app',
   data: () => ({
     drawer: false,
     group: null,

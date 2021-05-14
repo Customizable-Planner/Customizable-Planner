@@ -12,7 +12,7 @@
       <v-list-item>
         <v-chip draggable x-large>
           <v-icon left>
-            info
+            mdi-home
           </v-icon>
           메모
         </v-chip>
@@ -56,10 +56,14 @@
     height="600px"
     @click="someMethod">
     </v-card>
+  <add-module></add-module>
   </section>
 </template>
 <script>
+import AddModule from './addModule.vue'
 export default {
+  name: 'helloworld',
+  components: { AddModule },
   methods: {
     someMethod (event) {
       // clientX/Y gives the coordinates relative to the viewport in CSS pixels.
