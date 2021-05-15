@@ -1,7 +1,7 @@
 <template>
-  <v-row class="fill-height">
+  <v-row dense>
     <v-col>
-      <v-sheet height="600">
+      <v-sheet height="600" width="400">
         <v-calendar
           ref="calendar"
           v-model="value"
@@ -35,6 +35,7 @@
 </template>
 <script>
 export default {
+  name: 'calendar-module',
   data: () => ({
     value: '',
     events: [],
@@ -47,6 +48,7 @@ export default {
     extendOriginal: null
   }),
   methods: {
+    // event = 눌린 오브젝트 timed = ?
     startDrag ({ event, timed }) {
       if (event && timed) {
         this.dragEvent = event
