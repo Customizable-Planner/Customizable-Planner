@@ -70,8 +70,15 @@
            <!-- card 밖에서 사라졌다 나타났다
            {{hidden ? 'Calendar Show' : 'Calendar Hide'}} -->
           </v-btn>
-          <v-btn @click="readImage">사진파일불러오기</v-btn>
-          <v-img src=r></v-img>
+          <v-spacer></v-spacer>
+          <v-card> <!-- 이미지 삽입 버튼(근데 안씀. 삭제해도 됨) -->
+            <v-btn @click="readImage">사진파일불러오기</v-btn>
+          </v-card>
+          <v-card> <!-- 이미지 삽입 버튼(이걸로 구현했음) -->
+            <v-file-input v-model="insertedImage" />
+            <v-img :src="url" />
+          </v-card>
+
         </template>
         <span>Show Calendar</span>
       </v-tooltip>
@@ -96,20 +103,28 @@
 
 <script>
 import CalendarModule from './CalendarModule.vue'
-const { dialog } = require('electron').remote
+const { dialog } = require('electron').remote // 결국엔 이것도 안씀.
 
 export default {
   name: 'helloworld',
   components: { CalendarModule },
   data: () => ({
+    insertedImage: null, // 이미지 삽입을 위한 변수
     hidden: true,
     overlay: false,
     absolute: true,
     zIndex: 0,
     opacity: 1
   }),
+  computed: { // 왠지는 잘 모르겠는데 computed에다가 해야됨
+  // 요거 참고해서 했음 https://stackoverflow.com/questions/60678840/vuetify-image-upload-preview
+    url () {
+      if (!this.image) return
+      return URL.createObjectURL(this.image)
+    }
+  },
   methods: {
-    readImage () {
+    readImage () { // 이 method도 안씀. 삭제해도 됨
       const options = {
         filters: [
           {
