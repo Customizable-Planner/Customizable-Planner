@@ -70,6 +70,8 @@
            <!-- card 밖에서 사라졌다 나타났다
            {{hidden ? 'Calendar Show' : 'Calendar Hide'}} -->
           </v-btn>
+          <v-btn @click="readImage">사진파일불러오기</v-btn>
+          <v-img src=r></v-img>
         </template>
         <span>Show Calendar</span>
       </v-tooltip>
@@ -91,8 +93,10 @@
     </v-fab-transition>-->
   </section>
 </template>
+
 <script>
 import CalendarModule from './CalendarModule.vue'
+const { dialog } = require('electron').remote
 
 export default {
   name: 'helloworld',
@@ -105,6 +109,18 @@ export default {
     opacity: 1
   }),
   methods: {
+    readImage () {
+      const options = {
+        filters: [
+          {
+            name: 'png and jpg only',
+            extensions: ['png', 'jpg']
+          }
+        ]
+      }
+      const r = dialog.showOpenDialogSync(options)
+      console.log(r)
+    },
     someMethod (event) {
       // clientX/Y gives the coordinates relative to the viewport in CSS pixels.
       console.log(event.clientX)// x coordinate
