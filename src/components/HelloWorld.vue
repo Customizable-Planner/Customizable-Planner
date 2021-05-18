@@ -97,9 +97,7 @@
         </v-btn>
         <calendar-module></calendar-module>
       </v-overlay>
-      <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true">
-        <todolist/>
-      </vue-draggable-resizable>
+      <todolist/>
       <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true">
         <memolist/>
       </vue-draggable-resizable>
