@@ -1,10 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col
-        cols="12"
-        md="6"
-      >
+      <v-col>
         <v-textarea
           outlined
           name="input-7-4"

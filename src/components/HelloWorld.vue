@@ -57,7 +57,7 @@
     elevation="9"
     class="ml-15 mt-10"
     width="1000px"
-    height="600px"
+    height="800px"
     justify="center"
     >
       <v-tooltip top>
@@ -97,8 +97,12 @@
         </v-btn>
         <calendar-module></calendar-module>
       </v-overlay>
-      <todolist/>
-      <memolist/>
+      <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true">
+        <todolist/>
+      </vue-draggable-resizable>
+      <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true">
+        <memolist/>
+      </vue-draggable-resizable>
     </v-card>
     <!--<v-fab-transition>
     <calendar-module v-show="!hidden"></calendar-module>

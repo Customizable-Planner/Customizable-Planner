@@ -27,10 +27,10 @@
 import draggable from 'vuedraggable'
 
 export default {
+  name: 'TodoPage',
   components: {
     draggable
   },
-  name: 'TodoPage',
   data () {
     return {
       todos: [
