@@ -18,11 +18,15 @@
         </v-chip>
       </v-list-item>
       <v-list-item>
-        <v-chip draggable x-large>
+        <v-chip
+        @dragend="memoMethod"
+        draggable
+        x-large>
           <v-icon left>
             mdi-home
           </v-icon>
           메모
+          <memo-module />
         </v-chip>
       </v-list-item>
       <v-list-item>
@@ -93,10 +97,11 @@
 </template>
 <script>
 import CalendarModule from './CalendarModule.vue'
+import Memolist from './Memolist.vue'
 
 export default {
   name: 'helloworld',
-  components: { CalendarModule },
+  components: { CalendarModule, Memolist },
   data: () => ({
     hidden: true,
     overlay: false,
@@ -113,6 +118,19 @@ export default {
       // pageX/Y gives the coordinates relative to the <html> element in CSS pixels.
       console.log(event.pageX)
       console.log(event.pagey)
+
+      // screenX/Y gives the coordinates relative to the screen in device pixels.
+      console.log(event.screenX)
+      console.log(event.screenY)
+    },
+    memoMethod (event) {
+      // clientX/Y gives the coordinates relative to the viewport in CSS pixels.
+      console.log(event.clientX)// x coordinate
+      console.log(event.clientY)// y coordinate
+
+      // pageX/Y gives the coordinates relative to the <html> element in CSS pixels.
+      console.log(event.pageX)
+      console.log(event.pageY)
 
       // screenX/Y gives the coordinates relative to the screen in device pixels.
       console.log(event.screenX)
