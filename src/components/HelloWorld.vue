@@ -85,18 +85,21 @@
         </v-btn>
         <calendar-module></calendar-module>
       </v-overlay>
+    <todolist/>
     </v-card>
     <!--<v-fab-transition>
     <calendar-module v-show="!hidden"></calendar-module>
     </v-fab-transition>-->
   </section>
 </template>
+
 <script>
 import CalendarModule from './CalendarModule.vue'
+import Todolist from './Todolist.vue'
 
 export default {
   name: 'helloworld',
-  components: { CalendarModule },
+  components: { CalendarModule, Todolist },
   data: () => ({
     hidden: true,
     overlay: false,
