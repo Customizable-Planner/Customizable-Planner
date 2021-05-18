@@ -3,18 +3,18 @@ module.exports = {
     'vuetify'
   ],
   pluginOptions: {
-    electronBuilder:{
-      nodeIntegration:true,
-      builderOptions:{
-        appId:'com.memi.ve',
-        nsis:{
-          shortcutName:'xxx nono'
+    electronBuilder: {
+      nodeIntegration: true,
+      builderOptions: {
+        appId: 'com.memi.ve',
+        nsis: {
+          shortcutName: 'xxx nono'
         },
-        win:{
-          target:[
+        win: {
+          target: [
             {
-              target:"nsis",
-              arch:[
+              target: 'nsis',
+              arch: [
                 'x64',
                 'ia32'
               ]
