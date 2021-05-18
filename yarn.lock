@@ -1299,12 +1299,17 @@
 "@types/yargs@^15.0.13":
   version "15.0.13"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-15.0.13.tgz#34f7fec8b389d7f3c1fd08026a5763e072d3c6dc"
   integrity sha512-kQ5JNTrbDv3Rp5X2n/iUu37IJBDU2gsZ5R/g1/KHOOEc5IKfUFjXT6DENPGduh08I/pamwtEq4oul7gUqKTQDQ==
 =======
   resolved "https://registry.nlark.com/@types/yargs/download/@types/yargs-15.0.13.tgz#34f7fec8b389d7f3c1fd08026a5763e072d3c6dc"
   integrity sha1-NPf+yLOJ1/PB/QgCaldj4HLTxtw=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/@types/yargs/download/@types/yargs-15.0.13.tgz#34f7fec8b389d7f3c1fd08026a5763e072d3c6dc"
+  integrity sha1-NPf+yLOJ1/PB/QgCaldj4HLTxtw=
+>>>>>>> origin/junhyeong
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -1903,12 +1908,17 @@ anymatch@~3.1.1:
 app-builder-bin@3.5.12:
   version "3.5.12"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/app-builder-bin/-/app-builder-bin-3.5.12.tgz#bbe174972cc1f481f73d6d92ad47a8b4c7eb4530"
   integrity sha512-lQARM2AielmFoBeIo6LZigAe+58Wwe07ZWkt+wVeDxzyieNmeWjlvz/V5dKzinydwdHd+CNswN86sww46yijjA==
 =======
   resolved "https://registry.npm.taobao.org/app-builder-bin/download/app-builder-bin-3.5.12.tgz#bbe174972cc1f481f73d6d92ad47a8b4c7eb4530"
   integrity sha1-u+F0lyzB9IH3PW2SrUeotMfrRTA=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.npm.taobao.org/app-builder-bin/download/app-builder-bin-3.5.12.tgz#bbe174972cc1f481f73d6d92ad47a8b4c7eb4530"
+  integrity sha1-u+F0lyzB9IH3PW2SrUeotMfrRTA=
+>>>>>>> origin/junhyeong
 
 app-builder-bin@3.5.13:
   version "3.5.13"
@@ -1918,12 +1928,17 @@ app-builder-bin@3.5.13:
 app-builder-lib@22.10.5:
   version "22.10.5"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/app-builder-lib/-/app-builder-lib-22.10.5.tgz#24a88581c891e5b187a0d569aa44e7c4a0dc8de2"
   integrity sha512-/W8nlGamJCtKlQtsMWwU9vb+cX4pTNY+rJWCuc7oXUykVSMS50W7LhQusIjCelNfymUQ1XCu6cXEY/ylqhX12A==
 =======
   resolved "https://registry.nlark.com/app-builder-lib/download/app-builder-lib-22.10.5.tgz#24a88581c891e5b187a0d569aa44e7c4a0dc8de2"
   integrity sha1-JKiFgciR5bGHoNVpqkTnxKDcjeI=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/app-builder-lib/download/app-builder-lib-22.10.5.tgz#24a88581c891e5b187a0d569aa44e7c4a0dc8de2"
+  integrity sha1-JKiFgciR5bGHoNVpqkTnxKDcjeI=
+>>>>>>> origin/junhyeong
   dependencies:
     "7zip-bin" "~5.0.3"
     "@develar/schema-utils" "~2.6.5"
@@ -2558,12 +2573,17 @@ buffer@^5.1.0:
 builder-util-runtime@8.7.3:
   version "8.7.3"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-8.7.3.tgz#0aaafa52d25295c939496f62231ca9ff06c30e40"
   integrity sha512-1Q2ReBqFblimF5g/TLg2+0M5Xzv0Ih5LxJ/BMWXvEy/e6pQKeeEpbkPMGsN6OiQgkygaZo5VXCXIjOkOQG5EoQ==
 =======
   resolved "https://registry.nlark.com/builder-util-runtime/download/builder-util-runtime-8.7.3.tgz?cache=0&sync_timestamp=1620719471405&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbuilder-util-runtime%2Fdownload%2Fbuilder-util-runtime-8.7.3.tgz#0aaafa52d25295c939496f62231ca9ff06c30e40"
   integrity sha1-Cqr6UtJSlck5SW9iIxyp/wbDDkA=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/builder-util-runtime/download/builder-util-runtime-8.7.3.tgz?cache=0&sync_timestamp=1620719471405&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbuilder-util-runtime%2Fdownload%2Fbuilder-util-runtime-8.7.3.tgz#0aaafa52d25295c939496f62231ca9ff06c30e40"
+  integrity sha1-Cqr6UtJSlck5SW9iIxyp/wbDDkA=
+>>>>>>> origin/junhyeong
   dependencies:
     debug "^4.3.2"
     sax "^1.2.4"
@@ -2579,12 +2599,17 @@ builder-util-runtime@8.7.4:
 builder-util@22.10.5:
   version "22.10.5"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-22.10.5.tgz#8d0b04a3be6acc74938679aa90dcb3181b1ae86b"
   integrity sha512-/MkLhmyo1gU3xMwXJxccQaRj/9tm5eTd6ZyebTf8SYouY4r3hRser+LxhOm/f8Z9W6oJvfPe0jc9TFsxYfMcsg==
 =======
   resolved "https://registry.nlark.com/builder-util/download/builder-util-22.10.5.tgz#8d0b04a3be6acc74938679aa90dcb3181b1ae86b"
   integrity sha1-jQsEo75qzHSThnmqkNyzGBsa6Gs=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/builder-util/download/builder-util-22.10.5.tgz#8d0b04a3be6acc74938679aa90dcb3181b1ae86b"
+  integrity sha1-jQsEo75qzHSThnmqkNyzGBsa6Gs=
+>>>>>>> origin/junhyeong
   dependencies:
     "7zip-bin" "~5.0.3"
     "@types/debug" "^4.1.5"
@@ -3788,12 +3813,17 @@ dir-glob@^2.0.0, dir-glob@^2.2.2:
 dmg-builder@22.10.5:
   version "22.10.5"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/dmg-builder/-/dmg-builder-22.10.5.tgz#65a33c106ead5a350c7de8997c546559bd6e0e7c"
   integrity sha512-58FEpfH8PEFqjbUNka4bYr52snRT8+LSXrP4gy6EZWOVICbOlmTOYj988pfoLam5C5iXb3odmyUQqwWOxlsEUw==
 =======
   resolved "https://registry.nlark.com/dmg-builder/download/dmg-builder-22.10.5.tgz#65a33c106ead5a350c7de8997c546559bd6e0e7c"
   integrity sha1-ZaM8EG6tWjUMfeiZfFRlWb1uDnw=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/dmg-builder/download/dmg-builder-22.10.5.tgz#65a33c106ead5a350c7de8997c546559bd6e0e7c"
+  integrity sha1-ZaM8EG6tWjUMfeiZfFRlWb1uDnw=
+>>>>>>> origin/junhyeong
   dependencies:
     app-builder-lib "22.10.5"
     builder-util "22.10.5"
@@ -4001,12 +4031,17 @@ ejs@^3.1.6:
 electron-builder@^22.10.5:
   version "22.10.5"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-22.10.5.tgz#03b156b93e6012609027c3aaa69201a3ad21e454"
   integrity sha512-0q/289UUJUhRou6lZKDz/wzK6WprIQ6VXMTmaI+w9qXvSNugPC9UA5s2zXInOkjZOvO/xKnjeyiavrVSHYF3tA==
 =======
   resolved "https://registry.nlark.com/electron-builder/download/electron-builder-22.10.5.tgz?cache=0&sync_timestamp=1620974667852&other_urls=https%3A%2F%2Fregistry.nlark.com%2Felectron-builder%2Fdownload%2Felectron-builder-22.10.5.tgz#03b156b93e6012609027c3aaa69201a3ad21e454"
   integrity sha1-A7FWuT5gEmCQJ8OqppIBo60h5FQ=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/electron-builder/download/electron-builder-22.10.5.tgz?cache=0&sync_timestamp=1620974667852&other_urls=https%3A%2F%2Fregistry.nlark.com%2Felectron-builder%2Fdownload%2Felectron-builder-22.10.5.tgz#03b156b93e6012609027c3aaa69201a3ad21e454"
+  integrity sha1-A7FWuT5gEmCQJ8OqppIBo60h5FQ=
+>>>>>>> origin/junhyeong
   dependencies:
     "@types/yargs" "^15.0.13"
     app-builder-lib "22.10.5"
@@ -4054,12 +4089,17 @@ electron-devtools-installer@^3.1.0:
 electron-publish@22.10.5:
   version "22.10.5"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-22.10.5.tgz#9cbe46266b6c79d8c6e99840755682e2262d3543"
   integrity sha512-dHyuazv3P3j1Xyv7pdwTwAvxWab2pCb0G0Oa6qWQoCc4b1/mRGY00M7AvYW1cPuUijj9zYAf1HmXfM6MifaMlA==
 =======
   resolved "https://registry.nlark.com/electron-publish/download/electron-publish-22.10.5.tgz?cache=0&sync_timestamp=1620975590702&other_urls=https%3A%2F%2Fregistry.nlark.com%2Felectron-publish%2Fdownload%2Felectron-publish-22.10.5.tgz#9cbe46266b6c79d8c6e99840755682e2262d3543"
   integrity sha1-nL5GJmtsedjG6ZhAdVaC4iYtNUM=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/electron-publish/download/electron-publish-22.10.5.tgz?cache=0&sync_timestamp=1620975590702&other_urls=https%3A%2F%2Fregistry.nlark.com%2Felectron-publish%2Fdownload%2Felectron-publish-22.10.5.tgz#9cbe46266b6c79d8c6e99840755682e2262d3543"
+  integrity sha1-nL5GJmtsedjG6ZhAdVaC4iYtNUM=
+>>>>>>> origin/junhyeong
   dependencies:
     "@types/fs-extra" "^9.0.7"
     bluebird-lst "^1.0.9"
@@ -5391,12 +5431,17 @@ hosted-git-info@^2.1.4:
 hosted-git-info@^3.0.8:
   version "3.0.8"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-3.0.8.tgz#6e35d4cc87af2c5f816e4cb9ce350ba87a3f370d"
   integrity sha512-aXpmwoOhRBrw6X3j0h5RloK4x1OzsxMPyxqIHyNfSe2pypkVTZFpEiRoSipPEPlMrh0HW/XsjkJ5WgnCirpNUw==
 =======
   resolved "https://registry.nlark.com/hosted-git-info/download/hosted-git-info-3.0.8.tgz#6e35d4cc87af2c5f816e4cb9ce350ba87a3f370d"
   integrity sha1-bjXUzIevLF+Bbky5zjULqHo/Nw0=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/hosted-git-info/download/hosted-git-info-3.0.8.tgz#6e35d4cc87af2c5f816e4cb9ce350ba87a3f370d"
+  integrity sha1-bjXUzIevLF+Bbky5zjULqHo/Nw0=
+>>>>>>> origin/junhyeong
   dependencies:
     lru-cache "^6.0.0"
 
@@ -7077,12 +7122,17 @@ normalize-package-data@^2.3.2, normalize-package-data@^2.5.0:
 normalize-package-data@^3.0.0:
   version "3.0.2"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-3.0.2.tgz#cae5c410ae2434f9a6c1baa65d5bc3b9366c8699"
   integrity sha512-6CdZocmfGaKnIHPVFhJJZ3GuR8SsLKvDANFp47Jmy51aKIr8akjAWTSxtpI+MBgBFdSMRyo4hMpDlT6dTffgZg==
 =======
   resolved "https://registry.npm.taobao.org/normalize-package-data/download/normalize-package-data-3.0.2.tgz?cache=0&sync_timestamp=1616087026739&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnormalize-package-data%2Fdownload%2Fnormalize-package-data-3.0.2.tgz#cae5c410ae2434f9a6c1baa65d5bc3b9366c8699"
   integrity sha1-yuXEEK4kNPmmwbqmXVvDuTZshpk=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.npm.taobao.org/normalize-package-data/download/normalize-package-data-3.0.2.tgz?cache=0&sync_timestamp=1616087026739&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnormalize-package-data%2Fdownload%2Fnormalize-package-data-3.0.2.tgz#cae5c410ae2434f9a6c1baa65d5bc3b9366c8699"
+  integrity sha1-yuXEEK4kNPmmwbqmXVvDuTZshpk=
+>>>>>>> origin/junhyeong
   dependencies:
     hosted-git-info "^4.0.1"
     resolve "^1.20.0"
@@ -8283,12 +8333,17 @@ rc@^1.2.8:
 read-config-file@6.0.0:
   version "6.0.0"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/read-config-file/-/read-config-file-6.0.0.tgz#224b5dca6a5bdc1fb19e63f89f342680efdb9299"
   integrity sha512-PHjROSdpceKUmqS06wqwP92VrM46PZSTubmNIMJ5DrMwg1OgenSTSEHIkCa6TiOJ+y/J0xnG1fFwG3M+Oi1aNA==
 =======
   resolved "https://registry.nlark.com/read-config-file/download/read-config-file-6.0.0.tgz?cache=0&sync_timestamp=1620715411482&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fread-config-file%2Fdownload%2Fread-config-file-6.0.0.tgz#224b5dca6a5bdc1fb19e63f89f342680efdb9299"
   integrity sha1-Iktdympb3B+xnmP4nzQmgO/bkpk=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/read-config-file/download/read-config-file-6.0.0.tgz?cache=0&sync_timestamp=1620715411482&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fread-config-file%2Fdownload%2Fread-config-file-6.0.0.tgz#224b5dca6a5bdc1fb19e63f89f342680efdb9299"
+  integrity sha1-Iktdympb3B+xnmP4nzQmgO/bkpk=
+>>>>>>> origin/junhyeong
   dependencies:
     dotenv "^8.2.0"
     dotenv-expand "^5.1.0"
@@ -10112,12 +10167,17 @@ vm-browserify@^1.0.1:
 vue-cli-plugin-electron-builder@~2.0.0:
   version "2.0.0"
 <<<<<<< HEAD
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-2.0.0.tgz#e847a5b548a747547842a52ec925e72c6ef28114"
   integrity sha512-Qrqj6g6poaZqxQmYHTZTbcJ/kdk1XyqeKYDXWjynV6gsyNrtyY28xVy/KvNk/uE8o9rlZFNai4J3mOPYyE4w+A==
 =======
   resolved "https://registry.nlark.com/vue-cli-plugin-electron-builder/download/vue-cli-plugin-electron-builder-2.0.0.tgz#e847a5b548a747547842a52ec925e72c6ef28114"
   integrity sha1-6EeltUinR1R4QqUuySXnLG7ygRQ=
 >>>>>>> db4eb0289b607d853d70d6770fbf1bfd6f618cbe
+=======
+  resolved "https://registry.nlark.com/vue-cli-plugin-electron-builder/download/vue-cli-plugin-electron-builder-2.0.0.tgz#e847a5b548a747547842a52ec925e72c6ef28114"
+  integrity sha1-6EeltUinR1R4QqUuySXnLG7ygRQ=
+>>>>>>> origin/junhyeong
   dependencies:
     "@vue/cli-shared-utils" "^4.5.6"
     chokidar "^3.0.2"
