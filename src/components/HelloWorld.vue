@@ -119,8 +119,8 @@ export default {
   computed: { // 왠지는 잘 모르겠는데 computed에다가 해야됨
   // 요거 참고해서 했음 https://stackoverflow.com/questions/60678840/vuetify-image-upload-preview
     url () {
-      if (!this.image) return
-      return URL.createObjectURL(this.image)
+      if (!this.insertedImage) return
+      return URL.createObjectURL(this.insertedImage)
     }
   },
   methods: {
