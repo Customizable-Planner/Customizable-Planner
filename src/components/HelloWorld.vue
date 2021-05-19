@@ -132,7 +132,7 @@ export default {
       hidden: true,
       overlay: false,
       absolute: true,
-      zIndex: 0,
+      zIndex: 10,
       opacity: 1,
       xxxx: false,
       insertedImage: null // 이미지 삽입을 위한 변수
