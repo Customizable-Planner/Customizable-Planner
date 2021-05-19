@@ -74,13 +74,10 @@
            {{hidden ? 'Calendar Show' : 'Calendar Hide'}} -->
           </v-btn>
           <v-spacer></v-spacer>
-          <v-card> <!-- 이미지 삽입 버튼(근데 안씀. 삭제해도 됨) -->
-            <v-btn @click="readImage">사진파일불러오기</v-btn>
-          </v-card>
-          <v-card> <!-- 이미지 삽입 버튼(이걸로 구현했음) -->
-            <v-file-input v-model="insertedImage" />
+          <vue-draggable-resizable> <!-- 이미지 삽입 버튼(이걸로 구현했음) -->
+            <v-file-input v-model="insertedImage"></v-file-input>
             <v-img :src="url" />
-          </v-card>
+          </vue-draggable-resizable>
 
         </template>
         <span>Show Calendar</span>
@@ -97,7 +94,9 @@
         </v-btn>
         <calendar-module></calendar-module>
       </v-overlay>
-      <todolist/>
+      <vue-draggable-resizable>
+        <todolist/>
+      </vue-draggable-resizable>
       <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true">
         <memolist/>
       </vue-draggable-resizable>
