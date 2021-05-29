@@ -3,11 +3,13 @@
     class="row"
     >
     <v-card
-      class="col mt-15"
+      class="droptarget col mt-15"
       elevation="9"
       max-width="400"
       dense
       tile
+      v-on:drop="drop"
+      v-on:dragover="allowDrop"
     >
       <v-list-item>
         <v-chip draggable x-large>
@@ -52,13 +54,16 @@
           원형타임테이블
         </v-chip>
       </v-list-item>
+      <v-btn v-on:dragstart="dragStart" v-on:drag="dragging" draggable="true" id="dragtarget">Drag me!</v-btn>
+      <v-btn @click="addMemo()">add memo</v-btn>
     </v-card>
-    <v-card
+    <div
+    style="height: 800px; width: 800px; border: 1px solid red; position: relative;"
     elevation="9"
-    class="ml-15 mt-10"
-    width="1000px"
-    height="800px"
+    class="droptarget ml-15 mt-10"
     justify="center"
+    v-on:drop="drop"
+    v-on:dragover="allowDrop"
     >
       <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
@@ -74,10 +79,13 @@
            {{hidden ? 'Calendar Show' : 'Calendar Hide'}} -->
           </v-btn>
           <v-spacer></v-spacer>
-          <vue-draggable-resizable> <!-- 이미지 삽입 버튼(이걸로 구현했음) -->
-            <v-file-input v-model="insertedImage"></v-file-input>
+          <v-card> <!-- 이미지 삽입 버튼(근데 안씀. 삭제해도 됨) -->
+            <v-btn @click="readImage">사진파일불러오기</v-btn>
+          </v-card>
+          <v-card> <!-- 이미지 삽입 버튼(이걸로 구현했음) -->
+            <v-file-input v-model="insertedImage" />
             <v-img :src="url" />
-          </vue-draggable-resizable>
+          </v-card>
 
         </template>
         <span>Show Calendar</span>
@@ -92,15 +100,10 @@
         >
           Hide Calendar
         </v-btn>
-        <calendar-module></calendar-module>
+        <calendar-module/>
       </v-overlay>
-      <vue-draggable-resizable>
-        <todolist/>
-      </vue-draggable-resizable>
-      <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true">
-        <memolist/>
-      </vue-draggable-resizable>
-    </v-card>
+      <component v-bind:is="memo-component" v-for="Memo in Memos" v-bind:key="Memo"></component>
+    </div>
     <!--<v-fab-transition>
     <calendar-module v-show="!hidden"></calendar-module>
     </v-fab-transition>-->
@@ -110,20 +113,23 @@
         X: {{ x }} / Y: {{ y }} - Width: {{ width }} / Height: {{ height }}</p>
       </vue-draggable-resizable>
     </div> -->
+
   </section>
 </template>
 
 <script>
 import CalendarModule from './CalendarModule.vue'
-import Todolist from './Todolist.vue'
-import Memolist from './Memolist.vue'
-
+import Vue from 'vue'
+Vue.component('memo-component', {
+  template: '<vue-draggable-resizable v-for @dragging="onDrag" @resizing="onResize" :parent="true"><memolist/></vue-draggable-resizable>'
+})
 const { dialog } = require('electron').remote // 결국엔 이것도 안씀.
 export default {
   name: 'helloworld',
-  components: { CalendarModule, Memolist, Todolist },
+  components: { CalendarModule },
   data: function () {
     return {
+      Memos: [],
       width: 0,
       height: 0,
       x: 50,
@@ -131,10 +137,16 @@ export default {
       hidden: true,
       overlay: false,
       absolute: true,
-      zIndex: 10,
+      zIndex: 0,
       opacity: 1,
       xxxx: false,
-      insertedImage: null // 이미지 삽입을 위한 변수
+      insertedImage: null, // 이미지 삽입을 위한 변수
+      resizeData: {
+        width: this.width,
+        height: this.height,
+        x: this.x,
+        y: this.y
+      }
     }
   },
   computed: { // 왠지는 잘 모르겠는데 computed에다가 해야됨
@@ -145,6 +157,21 @@ export default {
     }
   },
   methods: {
+    addMemo () {
+      this.Memos.push('memo-component')
+      console.log(this.Memos.length)
+    },
+    dragStart: function (event) {
+      event.dataTransfer.setData('Text', event.target.id)
+    },
+    allowDrop: function (event) {
+      event.preventDefault()
+    },
+    drop: function (event) {
+      event.preventDefault()
+      var data = event.dataTransfer.getData('Text')
+      event.target.appendChild(document.getElementById(data))
+    },
     readImage () { // 이 method도 안씀. 삭제해도 됨
       const options = {
         filters: [
@@ -186,3 +213,8 @@ export default {
   }
 }
 </script>
+<style>
+    .droptarget {
+    border: 1px solid #ff0000;
+  }
+  </style>
