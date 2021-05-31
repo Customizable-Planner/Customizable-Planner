@@ -102,7 +102,7 @@
         </v-btn>
         <calendar-module/>
       </v-overlay>
-      <component v-bind:is="memo-component" v-for="Memo in Memos" v-bind:key="Memo"></component>
+      <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true"><memolist/></vue-draggable-resizable>
     </div>
     <!--<v-fab-transition>
     <calendar-module v-show="!hidden"></calendar-module>
@@ -113,23 +113,24 @@
         X: {{ x }} / Y: {{ y }} - Width: {{ width }} / Height: {{ height }}</p>
       </vue-draggable-resizable>
     </div> -->
-
   </section>
 </template>
 
 <script>
 import CalendarModule from './CalendarModule.vue'
+import Memolist from './Memolist.vue'
 import Vue from 'vue'
 Vue.component('memo-component', {
-  template: '<vue-draggable-resizable v-for @dragging="onDrag" @resizing="onResize" :parent="true"><memolist/></vue-draggable-resizable>'
+  template: '<v-card><vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true"><memolist/></vue-draggable-resizable></v-card>'
 })
 const { dialog } = require('electron').remote // 결국엔 이것도 안씀.
 export default {
   name: 'helloworld',
-  components: { CalendarModule },
+  components: { CalendarModule, Memolist },
   data: function () {
     return {
       Memos: [],
+      stateMemo: false,
       width: 0,
       height: 0,
       x: 50,
@@ -158,8 +159,9 @@ export default {
   },
   methods: {
     addMemo () {
-      this.Memos.push('memo-component')
-      console.log(this.Memos.length)
+      var memo = document.createElement('memo-component')
+      memo.innerHTML = 'Memo'
+      document.body.appendChild(memo)
     },
     dragStart: function (event) {
       event.dataTransfer.setData('Text', event.target.id)
