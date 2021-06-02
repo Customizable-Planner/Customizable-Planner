@@ -73,11 +73,6 @@
            <!-- card 밖에서 사라졌다 나타났다
            {{hidden ? 'Calendar Show' : 'Calendar Hide'}} -->
           </v-btn>
-          <v-spacer></v-spacer>
-          <vue-draggable-resizable> <!-- 이미지 삽입 버튼(이걸로 구현했음) -->
-            <image-insert-module/>
-          </vue-draggable-resizable>
-
         </template>
         <span>Show Calendar</span>
       </v-tooltip>
@@ -93,6 +88,10 @@
         </v-btn>
         <calendar-module></calendar-module>
       </v-overlay>
+      <!--컴포넌트 추가하는 부분-->
+      <vue-draggable-resizable>
+        <image-insert-module/>
+      </vue-draggable-resizable>
       <vue-draggable-resizable>
         <todolist/>
       </vue-draggable-resizable>
