@@ -75,8 +75,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <vue-draggable-resizable> <!-- 이미지 삽입 버튼(이걸로 구현했음) -->
-            <v-file-input v-model="insertedImage"></v-file-input>
-            <v-img :src="url" />
+            <image-insert-module/>
           </vue-draggable-resizable>
 
         </template>
@@ -117,11 +116,11 @@
 import CalendarModule from './CalendarModule.vue'
 import Todolist from './Todolist.vue'
 import Memolist from './Memolist.vue'
+import ImageInsertModule from './ImageInsertModule.vue'
 
-const { dialog } = require('electron').remote // 결국엔 이것도 안씀.
 export default {
   name: 'helloworld',
-  components: { CalendarModule, Memolist, Todolist },
+  components: { CalendarModule, Memolist, Todolist, ImageInsertModule },
   data: function () {
     return {
       width: 0,
@@ -134,29 +133,9 @@ export default {
       zIndex: 10,
       opacity: 1,
       xxxx: false,
-      insertedImage: null // 이미지 삽입을 위한 변수
-    }
-  },
-  computed: { // 왠지는 잘 모르겠는데 computed에다가 해야됨
-  // 요거 참고해서 했음 https://stackoverflow.com/questions/60678840/vuetify-image-upload-preview
-    url () {
-      if (!this.insertedImage) return
-      return URL.createObjectURL(this.insertedImage)
     }
   },
   methods: {
-    readImage () { // 이 method도 안씀. 삭제해도 됨
-      const options = {
-        filters: [
-          {
-            name: 'png and jpg only',
-            extensions: ['png', 'jpg']
-          }
-        ]
-      }
-      const r = dialog.showOpenDialogSync(options)
-      console.log(r)
-    },
     someMethod (event) {
       // clientX/Y gives the coordinates relative to the viewport in CSS pixels.
       console.log(event.clientX)// x coordinate
