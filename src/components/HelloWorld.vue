@@ -132,7 +132,7 @@ export default {
       absolute: true,
       zIndex: 10,
       opacity: 1,
-      xxxx: false,
+      xxxx: false
     }
   },
   methods: {
