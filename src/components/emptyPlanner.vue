@@ -125,7 +125,7 @@ Vue.component('memo-component', {
 })
 const { dialog } = require('electron').remote // 결국엔 이것도 안씀.
 export default {
-  name: 'helloworld',
+  name: 'emptyPlanner',
   components: { CalendarModule, Memolist },
   data: function () {
     return {

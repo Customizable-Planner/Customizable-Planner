@@ -14,6 +14,6 @@
 </template>
 <script>
 export default {
-  name: 'memo-module'
+  name: 'memolist'
 }
 </script>

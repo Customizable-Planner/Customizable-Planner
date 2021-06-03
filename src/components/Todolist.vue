@@ -27,7 +27,7 @@
 import draggable from 'vuedraggable'
 
 export default {
-  name: 'TodoPage',
+  name: 'Todolist',
   components: {
     draggable
   },
