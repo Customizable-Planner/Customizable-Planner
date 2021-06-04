@@ -2,6 +2,9 @@
     <v-container>
       <v-calendar>
       </v-calendar>
+      <input type="text" placeholder="팀플하기" v-model = "title">
+      <input type="text" placeholder="시작 날짜" v-model = "sTime">
+      <input type="text" placeholder="끝나는 날짜" v-model = "eTime">
       <v-btn @click="updateCalendar"></v-btn>
     </v-container>
 </template>
@@ -11,6 +14,9 @@ export default {
   name: 'google-calendar-module',
   data: function () {
     return {
+      title: '일정 제목',
+      sTime: '2021-06-10T14:00:00Z',
+      eTime: '2021-06-14T14:00:00Z'
     }
   },
   methods: {
@@ -36,26 +42,31 @@ export default {
       const calendar = google.calendar({ version: 'v3', auth: oAuth2Client })
 
       // Create a new event start date instance for temp uses in our calendar.
-      // const eventStartTime = new Date()
-      // eventStartTime.setDate(eventStartTime.getDay() + 2)
+      const eventStartTime = new Date()
+      eventStartTime.setDate(eventStartTime.getDay() + 2)
 
       // Create a new event end date instance for temp uses in our calendar.
-      // const eventEndTime = new Date()
-      // eventEndTime.setDate(eventEndTime.getDay() + 4)
-      // eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
+      const eventEndTime = new Date()
+      eventEndTime.setDate(eventEndTime.getDay() + 4)
+      eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
+
+      const location = '중앙대학교'
+      const description = '팀플 하기'
+      // const startTime = '2021-06-10T14:00:00Z'
+      // const endTime = '2021-06-12T14:00:00Z'
 
       // Create a dummy event for temp uses in our calendar
       const event = {
-        summary: '오픈소스 팀플',
-        location: '중앙대학교',
-        description: '팀플 하기',
+        summary: this.title,
+        location: location,
+        description: description,
         colorId: 1,
         start: {
-          dateTime: '2021-06-10T14:00:00Z',
+          dateTime: this.sTime,
           timeZone: ''
         },
         end: {
-          dateTime: '2021-06-12T14:00:00Z',
+          dateTime: this.eTime,
           timeZone: ''
         }
       }
