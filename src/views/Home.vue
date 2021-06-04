@@ -49,10 +49,16 @@
 </template>
 
 <script>
+const Datastore = require('nedb-promises')
+const db = Datastore.create('/path/to/db.db')
 export default {
   methods: {
     test () {
       console.log('asdf')
+    },
+    async dbWrite () {
+      const r = await db.insert(this.form)
+      console.log(r)
     }
   },
   data: () => ({
@@ -60,7 +66,8 @@ export default {
       'Memolist',
       'Image',
       'Todolist',
-      'Calendar'
+      'Calendar',
+      'Memolist2'
     ]
   })
 }
