@@ -42,9 +42,7 @@
               <vue-draggable-resizable
               v-for="(memo, index) in memos"
               :key="index"
-              :parent="true">
-                <memolist
-                  @memolistDelete="memolistDelete"/></vue-draggable-resizable>
+              :parent="true"><memolist/></vue-draggable-resizable>
               <vue-draggable-resizable
               v-if="todolist === true" :parent="true">
               <todolist/>
@@ -69,9 +67,6 @@ export default {
       } else if (index === 1) {
         this.todolist = true
       }
-    },
-    memolistDelete (num) {
-      this.memos.splice(num, 1)
     }
   },
   data: () => ({
