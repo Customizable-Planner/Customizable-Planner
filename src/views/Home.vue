@@ -12,11 +12,7 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title
-                    v-if="index === 0" @click="addMemo">
-                      {{ module }}
-                    </v-list-item-title>
-                    <v-list-item-title
-                    v-else>
+                    @click="addModule(index)">
                       {{ module }}
                     </v-list-item-title>
                   </v-list-item-content>
@@ -46,8 +42,14 @@
               <vue-draggable-resizable
               v-for="(memo, index) in memos"
               :key="index"
-              @dragging="onDrag" @resizing="onResize" :parent="true"><memolist/></vue-draggable-resizable>
-              <p>{{ memos.length }}</p>
+              :parent="true">
+                <memolist
+                  @memolistDelete="memolistDelete"/></vue-draggable-resizable>
+              <vue-draggable-resizable
+              v-if="todolist === true" :parent="true">
+              <todolist/>
+              </vue-draggable-resizable>
+              <p>memo 개수 : {{ memos.length }} / todolist show: {{todolist}}</p>
             </v-sheet>
           </v-col>
         </v-row>
@@ -57,21 +59,30 @@
 
 <script>
 import Memolist from '../components/Memolist.vue'
+import Todolist from '../components/Todolist.vue'
 export default {
-  components: { Memolist },
+  components: { Memolist, Todolist },
   methods: {
-    addMemo () {
-      this.memos.push({ memo: 'memo' })
+    addModule (index) {
+      if (index === 0) {
+        this.memos.push({ memo: 'memo' })
+      } else if (index === 1) {
+        this.todolist = true
+      }
+    },
+    memolistDelete (num) {
+      this.memos.splice(num, 1)
     }
   },
   data: () => ({
     modules: [
       'Memolist',
-      'Image',
       'Todolist',
+      'Image',
       'Calendar'
     ],
-    memos: []
+    memos: [],
+    todolist: false
   })
 }
 </script>

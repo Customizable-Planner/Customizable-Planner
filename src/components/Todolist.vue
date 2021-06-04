@@ -1,71 +1,62 @@
 <template>
-<v-container class="container">
-  <h2>Todo List</h2>
-  <div class="input-group" style="margin-bottom:10px;">
-    <input type="text" class="form-control" placeholder="입력" v-model="name" v-on:keyup.enter="createTodo(name)">
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="button" @click="createTodo(name)">추가</button>
-    </span>
-  </div>
-    <ul class="list-group">
-      <draggable v-model="todos">
-        <li class="list-group-item" v-for="(todo, index) in todos" v-bind:key="todo" @click="todo.completed = !todo.completed">
-        <v-icon v-if="todo.completed">mdi-check</v-icon>
-        {{todo.name}}
-          <div class="btn-group pull-right">
-            <v-btn v-if="todo.completed" class="complete completed" outlined small>Complete</v-btn>
-            <v-btn v-else class="complete" outlined small>UComplete</v-btn>
-            <v-btn @click="deleteTodo(index)" class="delete" color="secondary" outlined small>Delete</v-btn>
-          </div>
-        </li>
-      </draggable>
-    </ul>
-</v-container>
+    <v-container>
+        <v-layout row wrap>
+            <v-flex xs12 text-center>
+                <h1>todo list</h1>
+                <p>전체 할일: {{todoList.length}} / 완료된 할일: {{countDone}}/ 남은 할일: {{todoList.length - countDone}}</p>
+            </v-flex>
+            <v-flex xs6 pa-2>
+                <List
+                    :todoList='todoList'
+                    @statusControl="statusControl"
+                    @listDelete="listDelete"
+                />
+            </v-flex>
+            <v-flex xs6 pa-2>
+                <ListAdd
+                    @listEdit="listEdit"
+                    @listAdd="listAdd"/>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import List from './List'
+import ListAdd from './ListAdd'
 
 export default {
-  name: 'Todolist',
   components: {
-    draggable
+    List,
+    ListAdd
+  },
+  computed: {
+    countDone () {
+      let count = 0
+      this.todoList.forEach(List => {
+        if (List.status === 'done') count++
+      })
+      return count
+    }
   },
   data () {
     return {
-      todos: [
-        {
-          name: 'OSS',
-          completed: false
-        },
-        {
-          name: 'COMP',
-          completed: false
-        },
-        {
-          name: 'SW',
-          completed: true
-        },
-        {
-          name: 'Algo',
-          completed: true
-        }
-      ]
+      todoList: []
     }
   },
   methods: {
-    deleteTodo (i) {
-      this.todos.splice(i, 1)
+    listAdd (memo) {
+      console.log('받음')
+      this.todoList.push({ memo: memo, status: 'created' })
     },
-    createTodo (name) {
-      if (name != null) {
-        this.todos.push({ name: name, completed: false })
-        this.name = null
-        this.completed = false
-      }
+    statusControl (index, status) {
+      this.todoList[index].status = status
     },
-    completeTodo (i) {
-      this.todos[i].completed = !this.todos[i].completed
+    listDelete (index) {
+      this.todoList.splice(index, 1)
+    },
+    listEdit (memo, index) {
+      this.todoList[index].memo = memo
     }
   }
 }
