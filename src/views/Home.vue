@@ -6,12 +6,17 @@
             <v-sheet rounded="lg">
               <v-list color="transparent">
                 <v-list-item
-                  v-for="module in modules"
-                  :key="module"
+                  v-for="(module, index) in modules"
+                  :key="index"
                   link
                 >
                   <v-list-item-content>
-                    <v-list-item-title @click="$router.push({name: 'memolist'})">
+                    <v-list-item-title
+                    v-if="index === 0" @click="addMemo">
+                      {{ module }}
+                    </v-list-item-title>
+                    <v-list-item-title
+                    v-else>
                       {{ module }}
                     </v-list-item-title>
                   </v-list-item-content>
@@ -38,9 +43,11 @@
               min-height="70vh"
               rounded="lg"
             >
-              <v-flex>
-                <router-view></router-view>
-              </v-flex>
+              <vue-draggable-resizable
+              v-for="(memo, index) in memos"
+              :key="index"
+              @dragging="onDrag" @resizing="onResize" :parent="true"><memolist/></vue-draggable-resizable>
+              <p>{{ memos.length }}</p>
             </v-sheet>
           </v-col>
         </v-row>
@@ -49,10 +56,12 @@
 </template>
 
 <script>
+import Memolist from '../components/Memolist.vue'
 export default {
+  components: { Memolist },
   methods: {
-    test () {
-      console.log('asdf')
+    addMemo () {
+      this.memos.push({ memo: 'memo' })
     }
   },
   data: () => ({
@@ -61,7 +70,8 @@ export default {
       'Image',
       'Todolist',
       'Calendar'
-    ]
+    ],
+    memos: []
   })
 }
 </script>
