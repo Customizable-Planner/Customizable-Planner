@@ -21,6 +21,12 @@
         >
           저장
         </v-btn>
+        <v-btn
+        color='#FFFDE7'
+        @click="contentDelete"
+        >
+          삭제
+        </v-btn>
       </v-row>
     </v-card-title>
     <v-row no-gutters>
@@ -57,6 +63,10 @@ export default {
     async save () {
       dbb.remove({ num: this.num }, { multi: true })
       dbb.insert({ num: this.num, text: this.text })
+    },
+    contentDelete () {
+      dbb.remove({ num: this.num }, { multi: true })
+      this.text = null
     }
   }
 }
