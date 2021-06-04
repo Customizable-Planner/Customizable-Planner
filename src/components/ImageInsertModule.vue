@@ -2,6 +2,7 @@
     <v-container>
         <v-file-input v-model="insertedImage"></v-file-input>
         <v-img :src="url" />
+        <v-btn @click="updateCalendar"></v-btn>
     </v-container>
 </template>
 
@@ -17,6 +18,10 @@ export default {
     url () {
       if (!this.insertedImage) return
       return URL.createObjectURL(this.insertedImage)
+    }
+  },
+  methods: {
+    updateCalendar () {
     }
   }
 }
