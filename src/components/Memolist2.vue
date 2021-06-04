@@ -2,28 +2,33 @@
   <v-card
     class="mx-auto"
     color="#FFF59D"
-    max-width="200"
+    max-width="300"
+    width="300"
   >
-    <v-icon
-      large
-      left
-    >
-      mdi-note
-    </v-icon>
-    <span class="text-h6 font-weight-light">Memo</span>
+    <v-card-title>
+      <v-row>
+        <v-icon
+          large
+          left
+        >
+          mdi-note
+        </v-icon>
+        <span class="text-h6 font-weight-light">Memo</span>
+        <v-spacer></v-spacer>
+        <v-btn
+        color='#FFFDE7'
+        @click="save"
+        >
+          저장
+        </v-btn>
+      </v-row>
+    </v-card-title>
+    <v-row no-gutters>
     <v-textarea
       outlined
       v-model="text"
     ></v-textarea>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn
-      color='white'
-      @click="save"
-      >
-        save
-      </v-btn>
-    </v-card-actions>
+    </v-row>
   </v-card>
 </template>
 
