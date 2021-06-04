@@ -24,7 +24,7 @@
                   color="grey lighten-4"
                 >
                   <v-list-item-content>
-                    <v-list-item-title @click="$router.push({name: 'todolist'})">
+                    <v-list-item-title @click="$router.push({name: 'about'})">
                       ab
                     </v-list-item-title>
                   </v-list-item-content>

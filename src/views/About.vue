@@ -4,5 +4,12 @@
     <v-btn @click="$router.push({name: 'Home'})">
       to home
     </v-btn>
+    <v-btn @click="$router.push({name: 'practice'})">
+      show todo list
+    </v-btn>
+    <p/>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
   </div>
 </template>
