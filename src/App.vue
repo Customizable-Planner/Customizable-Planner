@@ -11,16 +11,17 @@
           color="grey darken-1"
           size="32"
         ></v-avatar>
-
         <v-btn
           v-for="dashboard in dashboards"
           :key="dashboard"
           text
+          @click="$router.push({name: 'dashboard'})"
         >
-          {{ dashboard }}
+          {{ dashboard.title }}
         </v-btn>
         <v-btn
-        small dark fab text color="purple">
+        small dark fab text color="purple"
+        @click="addDashboard">
           <v-icon>
             mdi-plus
           </v-icon>
@@ -39,12 +40,14 @@
 export default {
   name: 'app',
   data: () => ({
-    dashboards: [
-      'Dashboard',
-      'Messages',
-      'Profile',
-      'Updates'
-    ]
-  })
+    dashboards: [],
+    index: 0
+  }),
+  methods: {
+    addDashboard () {
+      this.index++
+      this.dashboards.push({ title: 'Dashboard' + this.index })
+    }
+  }
 }
 </script>
