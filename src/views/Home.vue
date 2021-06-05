@@ -1,9 +1,9 @@
 <template>
-    <v-main class="grey lighten-3">
+    <v-main id="main" class="grey lighten-3">
       <v-container>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg">
+            <v-flex rounded="lg">
               <v-list color="transparent">
                 <v-list-item
                   v-for="(module, index) in modules"
@@ -12,7 +12,20 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title
-                    @click="addModule(index)">
+                    v-if="index === 0" @click="addMemo">
+                      {{ module }}
+                    </v-list-item-title>
+                    <!-- addimage 함수추가해야함 일단 todo로 해둠  -->
+                    <v-list-item-title
+                    v-else-if="index ===1" @click="addTodo">
+                      {{ module }}
+                    </v-list-item-title>
+                    <v-list-item-title
+                    v-else-if="index ===2" @click="addTodo">
+                      {{ module }}
+                    </v-list-item-title>
+                    <v-list-item-title
+                    v-else @click="addCalendar">
                       {{ module }}
                     </v-list-item-title>
                   </v-list-item-content>
@@ -31,7 +44,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-sheet>
+            </v-flex>
           </v-col>
 
           <v-col>
@@ -40,17 +53,20 @@
               rounded="lg"
             >
               <vue-draggable-resizable
-              v-for="(item) in dashboard"
-              :key="item"
-              :x="item.poseX"
-              :y="item.poseY"
-              @dragstop="onDrag"
-              :parent="true"
-              >
-                <memolist v-if="item.type === 'Memolist'" v-bind:num="item.index" v-on:pick-data="pickData"></memolist>
-                <todolist v-else-if="item.type === 'Todolist'" v-bind:num="item.index" v-on:pick-data="pickData"></todolist>
-              </vue-draggable-resizable>
-              <p>memo:{{ memos.length }}/todo:{{ todolists.length }}</p>
+              v-for="(memo, index) in memos"
+              :key="index"
+              @dragging="onDrag" @resizing="onResize" :parent="true"><memolist/></vue-draggable-resizable>
+              <p>{{ memos.length }}</p>
+              <vue-draggable-resizable
+              v-for="(todo, index) in todos"
+              :key="index"
+              @dragging="onDrag" @resizing="onResize" :parent="true"><Todolist/></vue-draggable-resizable>
+              <p>{{ todos.length }}</p>
+              <vue-draggable-resizable
+              v-for="(calendar, index) in calendars"
+              :key="index"
+              @dragging="onDrag" @resizing="onResize" :parent="true"><v-calendar></v-calendar></vue-draggable-resizable>
+              <p>{{ calendars.length }}</p>
             </v-sheet>
           </v-col>
         </v-row>
@@ -61,64 +77,30 @@
 <script>
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
-const Datastore = require('nedb-promises')
-const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
-
+// import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 export default {
   components: { Memolist, Todolist },
   methods: {
-    async addModule (index) {
-      if (index === 0) {
-        this.memos.push({ memo: 'memo' })
-        pageInfodb.insert({ type: 'Memolist', index: this.memos.length - 1 })
-      } else if (index === 1) {
-        this.todolists.push({ todo: 'todo' })
-        pageInfodb.insert({ type: 'Todolist', index: this.todolists.length - 1 })
-      }
-      this.dashboard = await pageInfodb.find()
+    addMemo () {
+      this.memos.push({ memo: 'memo' })
     },
-    // 메모 add 버튼 클릭할 경우, memo 배열에 memo 추가해서 메모 개수 확인.
-    // 대쉬보드 업데이트해서 위에 for문을 대쉬보드에 들어있는 내용이 출력되게 만듬.
-    onDrag (x, y) {
-      this.items.poseX = x
-      this.items.poseY = y
-      console.log('onDrag', this.items.poseX, this.items.poseY)
+    addTodo () {
+      this.todos.push({ todos: 'todo' })
     },
-    async pickData (data) {
-      this.items.type = data.type
-      this.items.index = data.index
-      console.log('pick Data', this.items.index, this.items.type, this.items.poseX, this.items.poseY)
-      pageInfodb.remove({ type: this.items.type, index: this.items.index }, { multi: true })
-      pageInfodb.insert({ type: this.items.type, index: this.items.index, poseX: this.items.poseX, poseY: this.items.poseY })
-      const abcd = await pageInfodb.find({ type: this.items.type, index: this.items.index })
-      console.log('what is in db', abcd)
+    addCalendar () {
+      this.calendars.push({ calendar: 'calendar' })
     }
-  },
-  async mounted () {
-    // pageInfodb.remove({}, { multi: true })
-    this.dashboard = await pageInfodb.find()
   },
   data: () => ({
     modules: [
       'Memolist',
-      'Todolist',
       'Image',
+      'Todolist',
       'Calendar'
     ],
     memos: [],
-    todolists: [],
-    dashboard: {
-      type: [],
-      index: [],
-      poseX: [],
-      poseY: []
-    },
-    items: {
-      type: null,
-      index: null,
-      poseX: null,
-      poseY: null
-    }
+    todos: [],
+    calendars: []
   })
 }
 </script>
