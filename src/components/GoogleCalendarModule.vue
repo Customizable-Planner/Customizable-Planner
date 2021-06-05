@@ -15,8 +15,8 @@ export default {
   data: function () {
     return {
       title: '일정 제목',
-      sTime: '2021-06-10T14:00:00Z',
-      eTime: '2021-06-14T14:00:00Z'
+      sTime: '2021-06-10T14:00:00+09:00',
+      eTime: '2021-06-14T14:00:00+09:00'
     }
   },
   methods: {
