@@ -32,20 +32,22 @@
       </v-row>
     </v-card-title>
     <v-row no-gutters>
-    <v-textarea
-      outlined
-      v-model="text"
-    ></v-textarea>
+      <v-textarea
+        outlined
+        name="input-7-4"
+        label="Memo"
+        value="write your memo"
+      >
+      </v-textarea>
     </v-row>
   </v-card>
 </template>
-
 <script>
 const Datastore = require('nedb-promises')
 const memodb = Datastore.create('/path/to/db.db')
 export default {
   name: 'memo-module',
-  props: ['num'],
+  props: ['num', 'mode'],
   data () {
     return {
       text: 'write your memo here!',
@@ -75,6 +77,15 @@ export default {
       console.log('in memoClick', memoindex)
       this.$emit('pick-data', memoindex)
     }
-  }
-}
+  }}
 </script>
+
+<style>
+textarea {
+  background: #c3c3c3;
+}
+.dark textarea {
+    background: #15202B;
+    color: #c3c3c3;
+}
+</style>

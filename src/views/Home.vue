@@ -1,9 +1,9 @@
 <template>
-    <v-main class="grey lighten-3">
+    <v-main id="main" class="grey lighten-3">
       <v-container>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg">
+            <v-flex rounded="lg">
               <v-list color="transparent">
                 <v-list-item
                   v-for="(module, index) in modules"
@@ -12,7 +12,20 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title
-                    @click="addModule(index)">
+                    v-if="index === 0" @click="addMemo">
+                      {{ module }}
+                    </v-list-item-title>
+                    <!-- addimage 함수추가해야함 일단 todo로 해둠  -->
+                    <v-list-item-title
+                    v-else-if="index ===1" @click="addTodo">
+                      {{ module }}
+                    </v-list-item-title>
+                    <v-list-item-title
+                    v-else-if="index ===2" @click="addTodo">
+                      {{ module }}
+                    </v-list-item-title>
+                    <v-list-item-title
+                    v-else @click="addCalendar">
                       {{ module }}
                     </v-list-item-title>
                   </v-list-item-content>
@@ -31,7 +44,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-sheet>
+            </v-flex>
           </v-col>
 
           <v-col>
@@ -76,9 +89,7 @@
 import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
-const Datastore = require('nedb-promises')
-const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
-
+// import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 export default {
   components: { Memolist, Todolist, LoadImage },
   methods: {
@@ -121,15 +132,11 @@ export default {
       this.active = false
     }
   },
-  async mounted () {
-    // pageInfodb.remove({}, { multi: true })
-    this.dashboard = await pageInfodb.find()
-  },
   data: () => ({
     modules: [
       'Memolist',
-      'Todolist',
       'Image',
+      'Todolist',
       'Calendar'
     ],
     memos: [],

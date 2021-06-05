@@ -26,22 +26,12 @@
 </template>
 
 <script>
-import List from './List'
-import ListAdd from './ListAdd'
+import draggable from 'vuedraggable'
 
 export default {
+  name: 'Todolist',
   components: {
-    List,
-    ListAdd
-  },
-  computed: {
-    countDone () {
-      let count = 0
-      this.todoList.forEach(List => {
-        if (List.status === 'done') count++
-      })
-      return count
-    }
+    draggable
   },
   data () {
     return {
@@ -61,8 +51,12 @@ export default {
     statusControl (index, status) {
       this.todoList[index].status = status
     },
-    listDelete (index) {
-      this.todoList.splice(index, 1)
+    createTodo (name) {
+      if (name != null) {
+        this.todos.push({ name: name, completed: false })
+        this.name = null
+        this.completed = false
+      }
     },
     listEdit (memo, index) {
       this.todoList[index].memo = memo
