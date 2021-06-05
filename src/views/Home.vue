@@ -48,8 +48,9 @@
               :parent="true"
               >
                 <memolist v-if="item.type === 'Memolist'" v-bind:num="item.index" v-on:pick-data="pickData"></memolist>
+                <todolist v-else-if="item.type === 'Todolist'" v-bind:num="item.index" v-on:pick-data="pickData"></todolist>
               </vue-draggable-resizable>
-              <p>{{ memos.length }}</p>
+              <p>memo:{{ memos.length }}/todo:{{ todolists.length }}</p>
             </v-sheet>
           </v-col>
         </v-row>
@@ -66,23 +67,18 @@ const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호�
 export default {
   components: { Memolist, Todolist },
   methods: {
-    addModule (index) {
+    async addModule (index) {
       if (index === 0) {
         this.memos.push({ memo: 'memo' })
+        pageInfodb.insert({ type: 'Memolist', index: this.memos.length - 1 })
       } else if (index === 1) {
-        this.todolist = true
+        this.todolists.push({ todo: 'todo' })
+        pageInfodb.insert({ type: 'Todolist', index: this.todolists.length - 1 })
       }
+      this.dashboard = await pageInfodb.find()
     },
     // 메모 add 버튼 클릭할 경우, memo 배열에 memo 추가해서 메모 개수 확인.
     // 대쉬보드 업데이트해서 위에 for문을 대쉬보드에 들어있는 내용이 출력되게 만듬.
-    async addMemo (index) {
-      console.log(index)
-      this.memos.push({ memo: 'memo' })
-      // 생성시에 타입과, 해당 타입의 인덱스 넘김
-      pageInfodb.insert({ type: 'Memolist', index: this.memos.length - 1 })
-      this.dashboard = await pageInfodb.find()
-      console.log(this.dashboard)
-    },
     onDrag (x, y) {
       this.items.poseX = x
       this.items.poseY = y
@@ -110,7 +106,7 @@ export default {
       'Calendar'
     ],
     memos: [],
-    todolist: false,
+    todolists: [],
     dashboard: {
       type: [],
       index: [],

@@ -13,49 +13,38 @@
         ></v-avatar>
 
         <v-btn
-          v-for="link in links"
-          :key="link"
+          v-for="dashboard in dashboards"
+          :key="dashboard"
           text
         >
-          {{ link }}
+          {{ dashboard }}
         </v-btn>
-
+        <v-btn
+        small dark fab text color="purple">
+          <v-icon>
+            mdi-plus
+          </v-icon>
+        </v-btn>
         <v-spacer></v-spacer>
 
-        <v-responsive max-width="260">
-          <v-text-field
-            dense
-            flat
-            hide-details
-            rounded
-            solo-inverted
-          ></v-text-field>
-        </v-responsive>
       </v-container>
     </v-app-bar>
     <v-content>
       <router-view></router-view>
     </v-content>
-    <v-row>
-    <memolist-2 v-bind:num='Memodata'></memolist-2>
-    <memolist-2 v-bind:num='Memodata+1'></memolist-2>
-    </v-row>
   </v-app>
 </template>
 
 <script>
-import Memolist2 from './components/Memolist2.vue'
 export default {
-  components: { Memolist2 },
   name: 'app',
   data: () => ({
-    links: [
+    dashboards: [
       'Dashboard',
       'Messages',
       'Profile',
       'Updates'
-    ],
-    Memodata: 1
+    ]
   })
 }
 </script>
