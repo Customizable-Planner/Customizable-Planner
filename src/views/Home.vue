@@ -3,7 +3,7 @@
       <v-container>
         <v-row>
           <v-col cols="2">
-            <v-flex rounded="lg">
+            <v-sheet rounded="lg">
               <v-list color="transparent">
                 <v-list-item
                   v-for="(module, index) in modules"
@@ -12,21 +12,8 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title
-                    v-if="index === 0" @click="addMemo">
-                      {{ module }}
-                    </v-list-item-title>
-                    <!-- addimage 함수추가해야함 일단 todo로 해둠  -->
-                    <v-list-item-title
-                    v-else-if="index ===1" @click="addTodo">
-                      {{ module }}
-                    </v-list-item-title>
-                    <v-list-item-title
-                    v-else-if="index ===2" @click="addTodo">
-                      {{ module }}
-                    </v-list-item-title>
-                    <v-list-item-title
-                    v-else @click="addCalendar">
-                      {{ module }}
+                    @click="addModule(index)">
+                    {{ module }}
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -44,7 +31,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-flex>
+            </v-sheet>
           </v-col>
 
           <v-col>
@@ -53,29 +40,27 @@
               rounded="lg"
             >
               <vue-draggable-resizable
-              class-name-active="my-active-class"
-
-              @activated="onActivated"
-              @deactivated="onDeactivated"
-              v-for="(item) in dashboard"
-              :key="item"
-              :x="item.poseX"
-              :y="item.poseY"
-              @dragstop="onDrag"
-              :parent="true"
-              :resizable="false"
-              w="auto" h="auto"
+                class-name-active="my-active-class"
+                @activated="onActivated"
+                @deactivated="onDeactivated"
+                v-for="(item) in dashboard"
+                :key="item"
+                :x="item.poseX"
+                :y="item.poseY"
+                @dragstop="onDrag"
+                :parent="true"
+                w="auto" h="auto"
               >
-              <memolist v-if="item.type === 'Memolist'" v-bind:num="item.index" v-on:pick-data="pickData"></memolist>
-              <load-image v-else-if="item.type === 'Image'" v-bind:num="item.index" v-on:pick-data="pickData"></load-image>
-              <todolist v-else-if="item.type === 'Todolist'" v-bind:num="item.index" v-on:pick-data="pickData">
-                <template v-slot:activator="{ on }">
-                  <v-btn v-on="on">
-                    편집
-                  </v-btn>
-                  <v-btn v-if="active" @click="deleteTodolist">삭제</v-btn>
-                </template>
-              </todolist>
+                <memolist v-if="item.type === 'Memolist'" v-bind:num="item.index" v-on:pick-data="pickData"></memolist>
+                <load-image v-else-if="item.type === 'Image'" v-bind:num="item.index" v-on:pick-data="pickData"></load-image>
+                <todolist v-else-if="item.type === 'Todolist'" v-bind:num="item.index" v-on:pick-data="pickData">
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on">
+                      편집
+                    </v-btn>
+                    <v-btn v-if="active" @click="deleteTodolist">삭제</v-btn>
+                  </template>
+                </todolist>
               </vue-draggable-resizable>
               <p>memo:{{ memos.length }}/todo:{{ todolists.length }}</p>
             </v-sheet>
@@ -90,6 +75,8 @@ import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
+const Datastore = require('nedb-promises')
+const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
 export default {
   components: { Memolist, Todolist, LoadImage },
   methods: {
@@ -97,10 +84,10 @@ export default {
       if (index === 0) {
         this.memos.push({ memo: 'memo' })
         pageInfodb.insert({ type: 'Memolist', index: this.memos.length - 1 })
-      } else if (index === 1) {
+      } else if (index === 2) {
         this.todolists.push({ todo: 'todo' })
         pageInfodb.insert({ type: 'Todolist', index: this.todolists.length - 1 })
-      } else if (index === 2) {
+      } else if (index === 1) {
         this.images.push({ image: 'image' })
         pageInfodb.insert({ type: 'Image', index: this.todolists.length - 1 })
       }
@@ -124,6 +111,10 @@ export default {
       pageInfodb.insert({ type: this.items.type, index: this.items.index, poseX: this.items.poseX, poseY: this.items.poseY })
       const abcd = await pageInfodb.find({ type: this.items.type, index: this.items.index })
       console.log('what is in db', abcd)
+    },
+    async mounted () {
+      await pageInfodb.remove({}, { multi: true })
+      this.dashboard = await pageInfodb.find()
     },
     onActivated () {
       this.active = true
@@ -158,9 +149,6 @@ export default {
 }
 </script>
 <style>
-.normal {
-    border: 1px solid rgb(0, 0, 0);
-}
 
 .my-active-class {
     border: 1px solid black;

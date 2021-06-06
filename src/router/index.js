@@ -49,24 +49,7 @@ const routes = [
   {
     path: '/dashboard:index',
     name: 'dashboard',
-    component: Dashboard,
-    children: [
-      {
-        path: '/memolist',
-        name: 'memolist',
-        component: Memolist
-      },
-      {
-        path: '/todolist',
-        name: 'todolist',
-        component: Todolist
-      },
-      {
-        path: '/loadImage',
-        name: 'loadImage',
-        component: LoadImage
-      }
-    ]
+    component: Dashboard
   },
   {
     path: '/about',

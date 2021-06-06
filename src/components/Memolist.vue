@@ -68,7 +68,7 @@ export default {
       memodb.remove({ num: this.num }, { multi: true })
       memodb.insert({ num: this.num, text: this.text })
     },
-    memoDelete () {
+    async memoDelete () {
       memodb.remove({ num: this.num }, { multi: true })
       this.text = null
     },
@@ -77,7 +77,8 @@ export default {
       console.log('in memoClick', memoindex)
       this.$emit('pick-data', memoindex)
     }
-  }}
+  }
+}
 </script>
 
 <style>

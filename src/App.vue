@@ -31,20 +31,23 @@
       </v-container>
     </v-app-bar>
     <v-content>
-  <div class="app" :class="mode">
+      <router-view></router-view>
+    </v-content>
+  <!-- <div class="app" :class="mode">
     <Header :mode="mode"/>
     <Home :mode="mode"/>
     <About :mode="mode"/>
-    <!-- <v-content>
+    <v-content>
       <router-view></router-view>
-    </v-content> -->
-  </div>
+    </v-content>
+  </div> -->
+  </v-app>
 </template>
 
 <script>
-import Header from '@/components/Header'
-import Home from '@/views/Home'
-import About from '@/views/About'
+// import Header from '@/components/Header'
+// import Home from '@/views/Home'
+// import About from '@/views/About'
 
 export default {
   name: 'app',
@@ -57,12 +60,12 @@ export default {
     addDashboard () {
       this.index++
       this.dashboards.push({ title: 'Dashboard' + this.index })
-    },
-    components: {
-    Header,
-    Home,
-    About
     }
+    // components: {
+    //   Header,
+    //   Home,
+    //   About
+    // }
   }
 }
 </script>
