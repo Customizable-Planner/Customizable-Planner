@@ -151,7 +151,7 @@ export default {
       month: '월간',
       week: '주간',
       day: '일간',
-      '4day': '4일간',
+      '4day': '4일간'
     },
     name: null,
     details: null,
@@ -185,33 +185,33 @@ export default {
       const endDay = end.day + this.nth(end.day)
       switch (this.type) {
         case 'month':
-        return `${startYear}년 ${startMonth}`
+          return `${startYear}년 ${startMonth}`
         case 'week':
         case '4day':
-        return `${startYear}년 ${startMonth} ${startDay} - ${suffixYear} ${suffixMonth} ${endDay} `
+          return `${startYear}년 ${startMonth} ${startDay} - ${suffixYear} ${suffixMonth} ${endDay} `
         case 'day':
-        return `${startMonth} ${startDay} ${startYear}`
+          return `${startMonth} ${startDay} ${startYear}`
       }
       return ''
     },
     monthFormatter () {
       return this.$refs.calendar.getFormatter({
-        timeZone: 'UTC', month: 'long',
+        timeZone: 'UTC', month: 'long'
       })
     }
   },
   methods: {
     async getEvents () {
-      let snapshot = await db.collection('calEvent').get()
+      const snapshot = await db.collection('calEvent').get()
       const events = []
       snapshot.forEach(doc => {
-        let appData = doc.data()
+        const appData = doc.data()
         appData.id = doc.id
         events.push(appData)
       })
       this.events = events
     },
-    setDialogDate( { date }) {
+    setDialogDate ({ date }) {
       this.dialogDate = true
       this.focus = date
     },
@@ -233,7 +233,7 @@ export default {
     },
     async addEvent () {
       if (this.name && this.start && this.end) {
-        await db.collection("calEvent").add({
+        await db.collection('calEvent').add({
           name: this.name,
           details: this.details,
           start: this.start,
@@ -241,10 +241,10 @@ export default {
           color: this.color
         })
         this.getEvents()
-        this.name = '',
-        this.details = '',
-        this.start = '',
-        this.end = '',
+        this.name = ''
+        this.details = ''
+        this.start = ''
+        this.end = ''
         this.color = ''
       } else {
         alert('You must enter event name, start, and end time')
@@ -257,19 +257,19 @@ export default {
       await db.collection('calEvent').doc(this.currentlyEditing).update({
         details: ev.details
       })
-      this.selectedOpen = false,
+      this.selectedOpen = false
       this.currentlyEditing = null
     },
     async deleteEvent (ev) {
-      await db.collection("calEvent").doc(ev).delete()
-      this.selectedOpen = false,
+      await db.collection('calEvent').doc(ev).delete()
+      this.selectedOpen = false
       this.getEvents()
     },
     showEvent ({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
-        setTimeout(() => this.selectedOpen = true, 10)
+        setTimeout(() => (this.selectedOpen = true), 10)
       }
       if (this.selectedOpen) {
         this.selectedOpen = false
@@ -285,8 +285,8 @@ export default {
     },
     nth (d) {
       return d > 3 && d < 21
-      ? 'th'
-      : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
+        ? 'th'
+        : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
     }
   }
 }
