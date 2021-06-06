@@ -21,6 +21,14 @@ export const eventBus = new Vue({
   }
 })
 
+export const indexBus = new Vue({
+  methods: {
+    infoDashboard (info) {
+      this.$emit('sendNum', info)
+    }
+  }
+})
+
 new Vue({
   router,
   store,

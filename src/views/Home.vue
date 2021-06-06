@@ -21,16 +21,10 @@
 
                 <v-divider class="my-2"></v-divider>
                 <p>plug-in</p>
-                <v-list-item
-                  link
-                  color="grey lighten-4"
-                >
-                  <v-list-item-content class="tester" >
-                    <v-list-item-title @click="$router.push({name: 'about'})">
-                      ab
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
+                <v-btn
+                @click="whichDashboard">
+                what
+                </v-btn>
               </v-list>
             </v-sheet>
           </v-col>
@@ -76,13 +70,22 @@
 import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
+import { indexBus } from '../main'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 const Datastore = require('nedb-promises')
 const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
 export default {
   props: ['mode'],
   components: { Memolist, Todolist, LoadImage },
+  created () {
+    indexBus.$on('sendNum', (info) => {
+      this.sendWhat = info
+    })
+  },
   methods: {
+    whichDashboard () {
+      console.log(this.sendWhat)
+    },
     async addModule (index) {
       if (index === 0) {
         this.memos.push({ memo: 'memo' })
@@ -127,6 +130,7 @@ export default {
     }
   },
   data: () => ({
+    sendWhat: 0,
     modules: [
       'Memolist',
       'Image',

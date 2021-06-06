@@ -12,10 +12,10 @@
           size="32"
         ></v-avatar>
         <v-btn
-          v-for="dashboard in dashboards"
-          :key="dashboard"
+          v-for="(dashboard, index) in dashboards"
+          :key="index"
           text
-          @click="$router.push({name: 'dashboard'})"
+          @click="clickedNum(index)"
         >
           {{ dashboard.title }}
         </v-btn>
@@ -48,20 +48,31 @@
 
 <script>
 // import Header from '@/components/Header'
-import Home from '@/views/Home'
+import Home from './views/Home'
+import { indexBus } from './main'
 // import About from '@/views/About'
 
 export default {
   name: 'app',
   data: () => ({
-    dashboards: [],
-    index: 0,
-    mode: 'dark'
+    dashboards: [
+      {
+        title: 'Dashboard1',
+        num: 0
+      }
+    ],
+    index: 1,
+    mode: 'dark',
+    sendWhat: 0
   }),
   methods: {
     addDashboard () {
       this.index++
-      this.dashboards.push({ title: 'Dashboard' + this.index })
+      this.dashboards.push({ title: 'Dashboard' + this.index, num: this.index })
+    },
+    clickedNum (index) {
+      // 데쉬보드 데이타베이스
+      indexBus.infoDashboard(index)
     }
   },
   components: {
