@@ -142,6 +142,9 @@
 
 <script>
 import { db } from '@/main'
+const fs = require('fs')
+const {google} = require('googleapis');
+
 export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
@@ -167,7 +170,9 @@ export default {
     dialogDate: false
   }),
   mounted () {
+    console.log('mounted')
     this.getEvents()
+    this.testMethod()
   },
   computed: {
     title () {
@@ -201,7 +206,37 @@ export default {
     }
   },
   methods: {
+    testMethod () {
+      console.log('testMethod를 한번 실행해보았습니다')
+      fs.readFile('credentials.json', (err, content) => {
+        if (err) return console.log('Error loading client secret file:', err)
+        console.log('credentials.json을 잘 읽었습니다')
+        console.log(JSON.parse(content))
+        const {client_secret, client_id, redirect_uris} = JSON.parse(content).installed
+        const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
+        oAuth2Client.setCredentials(JSON.parse('token.json'))
+        // 이제 일정 추가하면 됨
+        
+        const calendar = google.calendar({version: 'v3', oAuth2Client});
+        const event = {
+          summary: '여름휴가',
+          location: '장소',
+          description: 'description',
+          colorId: 1,
+          start: {
+            dateTime: '2021-06-10T14:00:00+09:00',
+            timeZone: ''
+          },
+          end: {
+            dateTime: '2021-06-12T14:00:00+09:00',
+            timeZone: ''
+          }
+        };
+        calendar.events.insert({ calendarId: 'primary', resource: event });
+      })
+    },
     async getEvents () {
+      console.log('getEvents')
       const snapshot = await db.collection('calEvent').get()
       const events = []
       snapshot.forEach(doc => {
@@ -216,6 +251,7 @@ export default {
       this.focus = date
     },
     viewDay ({ date }) {
+      console.log('viewDay')
       this.focus = date
       this.type = 'day'
     },
@@ -226,12 +262,14 @@ export default {
       this.focus = this.today
     },
     prev () {
+      alert('prev')
       this.$refs.calendar.prev()
     },
     next () {
       this.$refs.calendar.next()
     },
     async addEvent () {
+      console.log('addEvent')
       if (this.name && this.start && this.end) {
         await db.collection('calEvent').add({
           name: this.name,
@@ -264,8 +302,11 @@ export default {
       await db.collection('calEvent').doc(ev).delete()
       this.selectedOpen = false
       this.getEvents()
+      console.log('deleteEvent')
     },
     showEvent ({ nativeEvent, event }) {
+      alert('showEvent')
+      console.log('showEvent')
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target

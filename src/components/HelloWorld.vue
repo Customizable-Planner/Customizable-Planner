@@ -89,24 +89,7 @@
         <calendar-module></calendar-module>
       </v-overlay>
       <!--컴포넌트 추가하는 부분-->
-      <vue-draggable-resizable>
-        <image-insert-module/>
-      </vue-draggable-resizable>
-      <vue-draggable-resizable>
-        <todolist/>
-      </vue-draggable-resizable>
-      <vue-draggable-resizable @dragging="onDrag" @resizing="onResize" :parent="true">
-        <memolist/>
-      </vue-draggable-resizable>
-      <vue-draggable-resizable>
-        <google-calendar-module/>
-      </vue-draggable-resizable>
-      <vue-draggable-resizable>
-        <just-calendar-module/>
-      </vue-draggable-resizable>
-      <vue-draggable-resizable>
-        <new-google-calendar-module/>
-      </vue-draggable-resizable>
+      <new-google-calendar-module/>
 
     </v-card>
     <!--<v-fab-transition>
@@ -122,17 +105,12 @@
 </template>
 
 <script>
-import CalendarModule from './CalendarModule.vue'
-import Todolist from './Todolist.vue'
-import Memolist from './Memolist.vue'
-import ImageInsertModule from './ImageInsertModule.vue'
-import GoogleCalendarModule from './GoogleCalendarModule.vue'
-import JustCalendarModule from './JustCalendarModule.vue'
+
 import NewGoogleCalendarModule from './NewGoogleCalendarModule.vue'
 
 export default {
   name: 'helloworld',
-  components: { CalendarModule, Memolist, Todolist, ImageInsertModule, GoogleCalendarModule, JustCalendarModule, NewGoogleCalendarModule },
+  components: { NewGoogleCalendarModule },
   data: function () {
     return {
       width: 0,
