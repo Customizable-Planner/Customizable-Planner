@@ -88,11 +88,11 @@ textarea {
   background: #c3c3c3;
 }
 .dark textarea {
-    background: #15202B;
+    background: #091f35;
     color: #c3c3c3;
 }
 .dark div {
-    background: #091f35;
+    background: #3f5368;
     color: #c3c3c3;
 }
 .dark button {

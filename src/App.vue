@@ -1,40 +1,11 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar
-      app
-      color="white"
-      flat
-    >
-      <v-container class="py-0 fill-height">
-        <v-avatar
-          class="mr-10"
-          color="grey darken-1"
-          size="32"
-        ></v-avatar>
-        <v-btn
-          v-for="dashboard in dashboards"
-          :key="dashboard"
-          text
-          @click="$router.push({name: 'dashboard'})"
-        >
-          {{ dashboard.title }}
-        </v-btn>
-        <v-btn
-        small dark fab text color="purple"
-        @click="addDashboard">
-          <v-icon>
-            mdi-plus
-          </v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-      </v-container>
-    </v-app-bar>
     <!-- <v-content>
       <router-view></router-view>
     </v-content> -->
-    <div class="app" :class="mode">
+  <div class="app" :class="mode">
+      <Header2 :mode="mode"/>
       <Home :mode="mode"/>
-    </div>
+  </div>
   <!-- <div class="app" :class="mode">
     <Header :mode="mode"/>
     <Home :mode="mode"/>
@@ -43,11 +14,9 @@
       <router-view></router-view>
     </v-content>
   </div> -->
-  </v-app>
 </template>
-
 <script>
-// import Header from '@/components/Header'
+import Header2 from '@/components/Header2'
 import Home from '@/views/Home'
 // import About from '@/views/About'
 
@@ -65,7 +34,7 @@ export default {
     }
   },
   components: {
-    // Header,
+    Header2,
     Home
     //  About
   }
@@ -79,8 +48,6 @@ export default {
   font-family: 'Roboto';
 }
 .app {
-  width: 100vw;
-  min-height: 100vh;
   background: #F3F3F3;
   color: #15202B;
 }

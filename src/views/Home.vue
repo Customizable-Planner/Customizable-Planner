@@ -4,15 +4,15 @@
       <v-container>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg" class="sheet" :class="mode">
-              <v-list color="transparent" class>
+            <v-sheet rounded="lg">
+              <v-list color="transparent">
                 <v-list-item
                   v-for="(module, index) in modules"
                   :key="index"
                   link
                 >
-                  <v-list-item-content class="tester2" >
-                    <v-list-item-title class="sheettext" :class="mode"
+                  <v-list-item-content class="litem" :class="mode">
+                    <v-list-item-title
                     @click="addModule(index)">
                     {{ module }}
                     </v-list-item-title>
@@ -21,16 +21,18 @@
 
                 <v-divider class="my-2"></v-divider>
                 <p>plug-in</p>
-                <v-list-item
-                  link
-                  color="grey lighten-4"
-                >
-                  <v-list-item-content class="tester" >
-                    <v-list-item-title @click="$router.push({name: 'about'})">
-                      ab
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
+                <v-divider class="my-3"></v-divider>
+                <p>Toggle</p>
+                <v-container fluid>
+                  <v-switch
+                    v-model="switch1"
+                    :label="`Switch 1: ${switch1.toString()}`"
+                  ></v-switch>
+                  <v-switch
+                    v-model="switch2"
+                    :label="`Switch 2: ${switch2.toString()}`">
+                    </v-switch>
+                </v-container>
               </v-list>
             </v-sheet>
           </v-col>
@@ -127,6 +129,8 @@ export default {
     }
   },
   data: () => ({
+    switch1: true,
+    switch2: false,
     modules: [
       'Memolist',
       'Image',
@@ -160,17 +164,14 @@ export default {
 }
 
 .app {
-  width: 100vw;
-  min-height: 100vh;
-  background: #F3F3F3;
   color: #15202B;
 }
-.dark li {
+/* .dark li {
   background: #243a4e;
   color: #F3F3F3;
-}
+} */
 .dark {
-  background: #344657;
+  background: #c3dcf3;
   color: #F3F3F3;
 }
 .dark button{

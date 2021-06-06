@@ -7,7 +7,6 @@
     <v-btn @click="$router.push({name: 'practice'})">
       show todo list
     </v-btn>
-    <p/>
     <v-main>
       <router-view></router-view>
     </v-main>
