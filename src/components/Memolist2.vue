@@ -43,9 +43,11 @@
 <script>
 const Datastore = require('nedb-promises')
 const memodb = Datastore.create('/path/to/db.db')
+// memodb db 구성요소 = id(pageinfodb의 고유 '_id' 저장) / text / _id( 이 값은 고유값 )
+
 export default {
   name: 'memo-module',
-  props: ['num'],
+  props: ['id'],
   data () {
     return {
       text: 'write your memo here!',
@@ -53,25 +55,33 @@ export default {
     }
   },
   async mounted () {
-    const allval = await memodb.find()
-    console.log('all val', allval)
-    this.items = await memodb.findOne({ num: this.num })
-    console.log(this.items)
-    if (this.items !== null) {
+    // memodb.remove({}, { multi: true })
+    // const allval = await memodb.find()
+    // console.log('all val', allval)
+    this.items = await memodb.findOne({ id: this.id })
+    // console.log(this.items)
+    if (this.items === null) { // item 이 비어있으면
+      this.text = 'write your memo here!'
+      await memodb.insert({ id: this.id, text: this.text })
+    } else {
       this.text = this.items.text
     }
+    // const afterin = await memodb.find()
+    // console.log('after in', afterin)
+    // console.log('after in', this.text)
   },
   methods: {
-    async save () {
-      memodb.remove({ num: this.num }, { multi: true })
-      memodb.insert({ num: this.num, text: this.text })
+    async save () { // save는 db update로 변경
+      await memodb.update({ id: this.id }, { $set: { text: this.text } })
     },
-    memoDelete () {
-      memodb.remove({ num: this.num }, { multi: true })
-      this.text = null
+    async memoDelete () {
+      await memodb.remove({ id: this.id }, { multi: true })
+      this.text = 'write here!'
+      const memoindex = this.id // id는 고유값이기 때문에 지울때 굳이 타입같은거 보낼필요없음
+      this.$emit('del-data', memoindex)
     },
     memoClick () {
-      const memoindex = { index: this.num, type: 'Memolist' }
+      const memoindex = { id: this.id, type: 'Memolist' }
       console.log('in memoClick', memoindex)
       this.$emit('pick-data', memoindex)
     }

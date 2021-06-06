@@ -44,16 +44,15 @@
               rounded="lg"
             >
               <vue-draggable-resizable
-              v-for="(item) in dashboard"
-              :key="item"
+              v-for="(item, i) in dashboard"
+              :key="i"
               :x="item.poseX"
               :y="item.poseY"
               @dragstop="onDrag"
               :parent="true"
               >
-                <memolist-2 v-if="item.type === 'Memolist'" v-bind:num="item.index" v-on:pick-data="pickData"></memolist-2>
+                <memolist-2 v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></memolist-2>
               </vue-draggable-resizable>
-              <p>{{ memos.length }}</p>
             </v-sheet>
           </v-col>
         </v-row>
@@ -66,33 +65,40 @@ import Memolist2 from '../components/Memolist2.vue'
 
 const Datastore = require('nedb-promises')
 const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
-
+// pageinfo db 구성요소 = 모듈type / poseX / poseY / _id( 이 값은 고유값 )
 export default {
   components: { Memolist2 },
   methods: {
     // 메모 add 버튼 클릭할 경우, memo 배열에 memo 추가해서 메모 개수 확인.
     // 대쉬보드 업데이트해서 위에 for문을 대쉬보드에 들어있는 내용이 출력되게 만듬.
     async addMemo (index) {
-      console.log(index)
-      this.memos.push({ memo: 'memo' })
-      // 생성시에 타입과, 해당 타입의 인덱스 넘김
-      pageInfodb.insert({ type: 'Memolist', index: this.memos.length - 1 })
+      console.log('index', index)
+      const memoNum = await pageInfodb.find({ type: 'Memolist' })
+      console.log('memoNum', memoNum)
+      // this.memos.push({ memo: 'memo' })
+      // 생성시에 타입 넘김
+      await pageInfodb.insert({ type: 'Memolist', poseX: 0, poseY: 0 })
       this.dashboard = await pageInfodb.find()
       console.log(this.dashboard)
     },
-    onDrag (x, y) {
+    async onDrag (x, y) {
       this.items.poseX = x
       this.items.poseY = y
       console.log('onDrag', this.items.poseX, this.items.poseY)
     },
-    async pickData (data) {
+    async pickData (data) { // pick 한 data에 대한 위치정보를 수정할때도 db update로 변경
+      this.items.index = data.id
       this.items.type = data.type
-      this.items.index = data.index
-      console.log('pick Data', this.items.index, this.items.type, this.items.poseX, this.items.poseY)
-      pageInfodb.remove({ type: this.items.type, index: this.items.index }, { multi: true })
-      pageInfodb.insert({ type: this.items.type, index: this.items.index, poseX: this.items.poseX, poseY: this.items.poseY })
-      const abcd = await pageInfodb.find({ type: this.items.type, index: this.items.index })
+      console.log('pick Data', this.items.index, this.items.poseX, this.items.poseY)
+      await pageInfodb.update({ _id: this.items.index }, { $set: { poseX: this.items.poseX, poseY: this.items.poseY } })
+      const abcd = await pageInfodb.find({ type: this.items.type })
       console.log('what is in db', abcd)
+      this.dashboard = await pageInfodb.find()
+    },
+    async delData (id) {
+      const delId = id
+      await pageInfodb.remove({ _id: delId })
+      this.dashboard = await pageInfodb.find()
     }
   },
   async mounted () {
@@ -106,7 +112,7 @@ export default {
       'Todolist',
       'Calendar'
     ],
-    memos: [],
+    // memos: [],
     dashboard: {
       type: [],
       index: [],
