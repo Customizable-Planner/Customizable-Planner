@@ -104,6 +104,10 @@
       <vue-draggable-resizable>
         <just-calendar-module/>
       </vue-draggable-resizable>
+      <vue-draggable-resizable>
+        <new-google-calendar-module/>
+      </vue-draggable-resizable>
+
     </v-card>
     <!--<v-fab-transition>
     <calendar-module v-show="!hidden"></calendar-module>
@@ -124,10 +128,11 @@ import Memolist from './Memolist.vue'
 import ImageInsertModule from './ImageInsertModule.vue'
 import GoogleCalendarModule from './GoogleCalendarModule.vue'
 import JustCalendarModule from './JustCalendarModule.vue'
+import NewGoogleCalendarModule from './NewGoogleCalendarModule.vue'
 
 export default {
   name: 'helloworld',
-  components: { CalendarModule, Memolist, Todolist, ImageInsertModule, GoogleCalendarModule, JustCalendarModule },
+  components: { CalendarModule, Memolist, Todolist, ImageInsertModule, GoogleCalendarModule, JustCalendarModule, NewGoogleCalendarModule },
   data: function () {
     return {
       width: 0,
