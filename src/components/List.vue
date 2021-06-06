@@ -10,7 +10,6 @@
             <p>{{list.status}}</p>
             <v-btn
             v-if="list.status === 'created'"
-<<<<<<< HEAD
             @click="$emit('statusControl', list._id, 'done')"
             fab small outlined color="green"><v-icon>mdi-check</v-icon></v-btn>
             <v-btn
@@ -20,17 +19,6 @@
             <v-btn
             @click="$emit('listDelete', list._id)"
             fab small outlined color="red"><v-icon>mdi-trash-can-outline</v-icon></v-btn>
-=======
-            @click="$emit('statusControl', index, 'done')"
-            fab small text color="green"><v-icon>mdi-check</v-icon></v-btn>
-            <v-btn
-            v-else
-            @click="$emit('statusControl', index, 'created')"
-            fab small text color="blue"><v-icon>mdi-refresh</v-icon></v-btn>
-            <v-btn
-            @click="$emit('listDelete', index)"
-            fab small text color="red"><v-icon>mdi-trash-can-outline</v-icon></v-btn>
->>>>>>> origin/UI
             <v-btn
             @click="listEdit(list.memo, list._id)"
             v-if="list.status === 'created'"

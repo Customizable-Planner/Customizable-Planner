@@ -43,6 +43,7 @@
 </template>
 
 <script>
+// import { indexBus } from '../main'
 const Datastore = require('nedb-promises')
 const memodb = Datastore.create('/path/to/db.db')
 // memodb db 구성요소 = id(pageinfodb의 고유 '_id' 저장) / text / _id( 이 값은 고유값 )
@@ -56,10 +57,14 @@ export default {
       items: []
     }
   },
+  watch: {
+    async id () {
+      this.items = await memodb.findOne({ id: this.id })
+      this.text = this.items.text
+    }
+  },
   async mounted () {
     // memodb.remove({}, { multi: true })
-    // const allval = await memodb.find()
-    // console.log('all val', allval)
     this.items = await memodb.findOne({ id: this.id })
     // console.log(this.items)
     if (this.items === null) { // item 이 비어있으면
@@ -70,7 +75,7 @@ export default {
     }
     // const afterin = await memodb.find()
     // console.log('after in', afterin)
-    // console.log('after in', this.text)
+    console.log('after in', this.text)
   },
   methods: {
     async save () { // save는 db update로 변경

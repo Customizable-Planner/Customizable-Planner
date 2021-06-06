@@ -13,9 +13,9 @@
         ></v-avatar>
         <v-btn
           v-for="dashboard in dashboards"
-          :key="dashboard"
+          :key="dashboard.title"
           text
-          @click="$router.push({name: 'dashboard'})"
+          @click="clickedNum(dashboard._id)"
         >
           {{ dashboard.title }}
         </v-btn>
@@ -30,9 +30,9 @@
 
       </v-container>
     </v-app-bar>
-    <v-content>
-      <router-view></router-view>
-    </v-content>
+    <div class="app" :class="mode">
+      <Home :mode="mode"/>
+    </div>
   <!-- <div class="app" :class="mode">
     <Header :mode="mode"/>
     <Home :mode="mode"/>
@@ -46,9 +46,12 @@
 
 <script>
 // import Header from '@/components/Header'
-// import Home from '@/views/Home'
+import Home from '@/views/Home'
+import { indexBus } from './main'
 // import About from '@/views/About'
 
+const Datastore = require('nedb-promises')
+const dashboarddb = Datastore.create('/path/to/dashboarddb.db') // 대쉬보드 생성된 것들 저장
 export default {
   name: 'app',
   data: () => ({
@@ -56,16 +59,29 @@ export default {
     index: 0,
     mode: 'app'
   }),
+  async mounted () {
+    await dashboarddb.remove({}, { multi: true })
+    await dashboarddb.insert({ title: 'Dashboard1', _id: 1 })
+    this.dashboards = await dashboarddb.find()
+  },
   methods: {
-    addDashboard () {
-      this.index++
-      this.dashboards.push({ title: 'Dashboard' + this.index })
+    async addDashboard () {
+      const dashNum = await dashboarddb.find()
+      await dashboarddb.insert({ title: 'Dashboard' + (dashNum.length + 1), _id: (dashNum.length + 1) })
+      this.dashboards = await dashboarddb.find()
+      console.log(this.dashboards)
+      // this.index++
+      // this.dashboards.push({ title: 'Dashboard' + this.index })
+    },
+    async clickedNum (index) {
+      // 데쉬보드 데이타베이스
+      indexBus.infoDashboard(index)
     }
-    // components: {
+  },
+  components: {
     //   Header,
-    //   Home,
+    Home
     //   About
-    // }
   }
 }
 </script>

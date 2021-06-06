@@ -9,13 +9,13 @@
   </div>
     <ul class="list-group">
       <draggable v-model="todos">
-        <li class="list-group-item" v-for="(todo, index) in todos" v-bind:key="todo" @click="todo.completed = !todo.completed">
+        <li class="list-group-item" v-for="(todo) in todos" v-bind:key="todo" @click="completeTodo(todo._id)">
         <v-icon v-if="todo.completed">mdi-check</v-icon>
         {{todo.name}}
           <div class="btn-group pull-right">
             <v-btn v-if="todo.completed" class="complete completed" outlined small>Complete</v-btn>
             <v-btn v-else class="complete" outlined small>UComplete</v-btn>
-            <v-btn @click="deleteTodo(index)" class="delete" color="secondary" outlined small>Delete</v-btn>
+            <v-btn @click="deleteTodo(todo._id)" class="delete" color="secondary" outlined small>Delete</v-btn>
           </div>
         </li>
       </draggable>
@@ -26,46 +26,41 @@
 <script>
 import draggable from 'vuedraggable'
 
+const Datastore = require('nedb-promises')
+const tododb = Datastore.create('/path/to/tododb.db')
 export default {
   name: 'Todolist',
+  props: ['id'],
   components: {
     draggable
   },
   data () {
     return {
-      todos: [
-        {
-          name: 'OSS',
-          completed: false
-        },
-        {
-          name: 'COMP',
-          completed: false
-        },
-        {
-          name: 'SW',
-          completed: true
-        },
-        {
-          name: 'Algo',
-          completed: true
-        }
-      ]
+      todos: []
     }
   },
+  async mounted () {
+    this.todos = await tododb.find({ _id: this.id })
+  },
   methods: {
-    deleteTodo (i) {
-      this.todos.splice(i, 1)
+    async deleteTodo (id) {
+      // this.todos.splice(i, 1)
+      await tododb.remove({ id: this.id, _id: id })
+      this.todos = await tododb.find({ id: this.id })
     },
-    createTodo (name) {
+    async createTodo (name) {
       if (name != null) {
-        this.todos.push({ name: name, completed: false })
-        this.name = null
-        this.completed = false
+        await tododb.insert({ id: this.id, name: name, completed: false })
+        // this.todos.push({ name: name, completed: false })
+        // this.name = null
+        // this.completed = false
+        this.todos = await tododb.find({ id: this.id })
       }
     },
-    completeTodo (i) {
-      this.todos[i].completed = !this.todos[i].completed
+    async completeTodo (id) {
+      const istrue = await tododb.find({ _id: id })
+      await tododb.update({ _id: id }, { $set: { completed: !istrue.completed } })
+      this.todos = await tododb.find({ id: this.id })
     }
   }
 }

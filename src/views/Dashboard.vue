@@ -43,17 +43,17 @@
                 class-name-active="my-active-class"
                 @activated="onActivated"
                 @deactivated="onDeactivated"
-                v-for="(item) in dashboard"
-                :key="item"
+                v-for="(item, i) in dashboard"
+                :key="i"
                 :x="item.poseX"
                 :y="item.poseY"
                 @dragstop="onDrag"
                 :parent="true"
                 w="auto" h="auto"
               >
-                <memolist v-if="item.type === 'Memolist'" v-bind:num="item.index" v-on:pick-data="pickData"></memolist>
-                <load-image v-else-if="item.type === 'Image'" v-bind:num="item.index" v-on:pick-data="pickData"></load-image>
-                <todolist v-else-if="item.type === 'Todolist'" v-bind:num="item.index" v-on:pick-data="pickData">
+                <memolist v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData" z-index=1></memolist>
+                <load-image v-else-if="item.type === 'Image'" v-bind:id="item._id" v-on:pick-data="pickData"></load-image>
+                <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData">
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on">
                       편집
@@ -62,7 +62,6 @@
                   </template>
                 </todolist>
               </vue-draggable-resizable>
-              <p>memo:{{ memos.length }}/todo:{{ todolists.length }}</p>
             </v-sheet>
           </v-col>
         </v-row>
@@ -77,24 +76,35 @@ import Todolist from '../components/Todolist.vue'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 const Datastore = require('nedb-promises')
 const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
+// pageinfo db 구성요소 = 모듈type / poseX / poseY / _id( 이 값은 고유값 )
 export default {
+  props: ['id'],
   components: { Memolist, Todolist, LoadImage },
   methods: {
+    // 메모 add 버튼 클릭할 경우, memo 배열에 memo 추가해서 메모 개수 확인.
+    // 대쉬보드 업데이트해서 위에 for문을 대쉬보드에 들어있는 내용이 출력되게 만듬.
+    // async addMemo (index) {
+    // console.log('index', index)
+    // const memoNum = await pageInfodb.find({ type: 'Memolist' })
+    // console.log('memoNum', memoNum)
+    // this.memos.push({ memo: 'memo' })
+    // 생성시에 타입 넘김
+    // await pageInfodb.insert({ type: 'Memolist', poseX: 0, poseY: 0 })
     async addModule (index) {
       if (index === 0) {
-        this.memos.push({ memo: 'memo' })
-        pageInfodb.insert({ type: 'Memolist', index: this.memos.length - 1 })
+        // this.memos.push({ memo: 'memo' })
+        await pageInfodb.insert({ type: 'Memolist', poseX: 0, poseY: 0, dashid: this.id })
       } else if (index === 2) {
-        this.todolists.push({ todo: 'todo' })
-        pageInfodb.insert({ type: 'Todolist', index: this.todolists.length - 1 })
+        // this.todolists.push({ todo: 'todo' })
+        await pageInfodb.insert({ type: 'Todolist', poseX: 0, poseY: 0, dashid: this.id })
       } else if (index === 1) {
-        this.images.push({ image: 'image' })
-        pageInfodb.insert({ type: 'Image', index: this.todolists.length - 1 })
+        // this.images.push({ image: 'image' })
+        await pageInfodb.insert({ type: 'Image', poseX: 0, poseY: 0, dashid: this.id })
       }
-      this.dashboard = await pageInfodb.find()
+      this.dashboard = await pageInfodb.find({ dashid: this.id })
     },
     async deleteTodolist () {
-      pageInfodb.remove({ type: 'Todolist', index: this.items.index }, { multi: true })
+      pageInfodb.remove({ type: 'Todolist', index: this.items.index, dashid: this.id }, { multi: true })
     },
     // 메모 add 버튼 클릭할 경우, memo 배열에 memo 추가해서 메모 개수 확인.
     // 대쉬보드 업데이트해서 위에 for문을 대쉬보드에 들어있는 내용이 출력되게 만듬.
@@ -103,18 +113,19 @@ export default {
       this.items.poseY = y
       console.log('onDrag', this.items.poseX, this.items.poseY)
     },
-    async pickData (data) {
+    async pickData (data) { // pick 한 data에 대한 위치정보를 수정할때도 db update로 변경
+      this.items.index = data.id
       this.items.type = data.type
-      this.items.index = data.index
-      console.log('pick Data', this.items.index, this.items.type, this.items.poseX, this.items.poseY)
-      pageInfodb.remove({ type: this.items.type, index: this.items.index }, { multi: true })
-      pageInfodb.insert({ type: this.items.type, index: this.items.index, poseX: this.items.poseX, poseY: this.items.poseY })
-      const abcd = await pageInfodb.find({ type: this.items.type, index: this.items.index })
+      console.log('pick Data', this.items.index, this.items.poseX, this.items.poseY)
+      await pageInfodb.update({ dashid: this.id, _id: this.items.index }, { $set: { poseX: this.items.poseX, poseY: this.items.poseY } })
+      const abcd = await pageInfodb.find({ type: this.items.type, dashid: this.id })
       console.log('what is in db', abcd)
+      this.dashboard = await pageInfodb.find({ dashid: this.id })
     },
-    async mounted () {
-      await pageInfodb.remove({}, { multi: true })
-      this.dashboard = await pageInfodb.find()
+    async delData (id) {
+      const delId = id
+      await pageInfodb.remove({ dashid: this.id, _id: delId })
+      this.dashboard = await pageInfodb.find({ dashid: this.id })
     },
     onActivated () {
       this.active = true
@@ -123,6 +134,11 @@ export default {
       this.active = false
     }
   },
+  mounted () {
+    console.log('dddddddddddddddddddddddddddd')
+    pageInfodb.remove({}, { multi: true })
+    this.dashboard = pageInfodb.find({ dashid: this.id })
+  },
   data: () => ({
     modules: [
       'Memolist',
@@ -130,9 +146,9 @@ export default {
       'Todolist',
       'Calendar'
     ],
-    memos: [],
-    todolists: [],
-    images: [],
+    // memos: [],
+    // todolists: [],
+    // images: [],
     dashboard: {
       type: [],
       index: [],
@@ -149,9 +165,6 @@ export default {
 }
 </script>
 <style>
-.normal {
-    border: 1px solid rgb(0, 0, 0);
-}
 
 .my-active-class {
     border: 1px solid black;
