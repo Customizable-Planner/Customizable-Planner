@@ -5,7 +5,7 @@
     max-width="300"
     width="250"
     height="200"
-    v-on:click="memoClick"
+    v-on:mouseup="memoClick"
   >
     <v-card-title>
       <v-row>
@@ -20,12 +20,14 @@
         <v-btn
         color='#FFFDE7'
         @click="save"
+        z-index=10
         >
           저장
         </v-btn>
         <v-btn
         color='#FFFDE7'
         v-on:click="memoDelete"
+        z-index=10
         >
           삭제
         </v-btn>
@@ -76,12 +78,11 @@ export default {
     },
     async memoDelete () {
       await memodb.remove({ id: this.id }, { multi: true })
-      this.text = 'write here!'
       const memoindex = this.id // id는 고유값이기 때문에 지울때 굳이 타입같은거 보낼필요없음
       this.$emit('del-data', memoindex)
     },
-    memoClick () {
-      const memoindex = { id: this.id, type: 'Memolist' }
+    memoClick (x, y) {
+      const memoindex = { id: this.id, type: 'Memolist', x: x, y: y }
       console.log('in memoClick', memoindex)
       this.$emit('pick-data', memoindex)
     }

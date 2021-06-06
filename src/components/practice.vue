@@ -15,7 +15,8 @@
             <v-flex xs6 pa-2>
                 <ListAdd
                     @listEdit="listEdit"
-                    @listAdd="listAdd"/>
+                    @listAdd="listAdd"
+                />
             </v-flex>
         </v-layout>
     </v-container>
@@ -24,6 +25,9 @@
 <script>
 import List from './List'
 import ListAdd from './ListAdd'
+
+const Datastore = require('nedb-promises')
+const todolistdb = Datastore.create('/path/to/todolistdb.db')
 
 export default {
   components: {
@@ -44,19 +48,32 @@ export default {
       todoList: []
     }
   },
+  async mounted () {
+    this.todoList = await todolistdb.find()
+  },
   methods: {
-    listAdd (memo) {
+    async listAdd (memo) {
       console.log('받음')
-      this.todoList.push({ memo: memo, status: 'created' })
+      await todolistdb.insert({ memo: memo, status: 'created' })
+      this.todoList = await todolistdb.find()
+      console.log(this.todoList)
+      // this.todoList.push({ memo: memo, status: 'created' })
     },
-    statusControl (index, status) {
-      this.todoList[index].status = status
+    async statusControl (index, status) {
+      await todolistdb.update({ _id: index }, { $set: { status: status } })
+      this.todoList = todolistdb.find()
+      // this.todoList[index].status = status
     },
-    listDelete (index) {
-      this.todoList.splice(index, 1)
+    async listDelete (index) {
+      await todolistdb.remove({ _id: index }, { multi: true })
+      this.todoList = await todolistdb.find()
+      console.log(index)
+      // this.todoList.splice(index, 1)
     },
-    listEdit (memo, index) {
-      this.todoList[index].memo = memo
+    async listEdit (memo, index) {
+      await todolistdb.update({ _id: index }, { $set: { memo: memo } })
+      this.todoList = todolistdb.find()
+      // this.todoList[index].memo = memo
     }
   }
 }

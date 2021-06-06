@@ -51,7 +51,7 @@
               @dragstop="onDrag"
               :parent="true"
               >
-                <memolist-2 v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></memolist-2>
+                <memolist-2 v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData" z-index=1></memolist-2>
               </vue-draggable-resizable>
             </v-sheet>
           </v-col>
@@ -81,7 +81,7 @@ export default {
       this.dashboard = await pageInfodb.find()
       console.log(this.dashboard)
     },
-    async onDrag (x, y) {
+    onDrag (x, y) {
       this.items.poseX = x
       this.items.poseY = y
       console.log('onDrag', this.items.poseX, this.items.poseY)
