@@ -27,12 +27,14 @@
           </v-icon>
         </v-btn>
         <v-spacer></v-spacer>
-
       </v-container>
     </v-app-bar>
-    <v-content>
+    <!-- <v-content>
       <router-view></router-view>
-    </v-content>
+    </v-content> -->
+    <div class="app" :class="mode">
+      <Home :mode="mode"/>
+    </div>
   <!-- <div class="app" :class="mode">
     <Header :mode="mode"/>
     <Home :mode="mode"/>
@@ -46,7 +48,7 @@
 
 <script>
 // import Header from '@/components/Header'
-// import Home from '@/views/Home'
+import Home from '@/views/Home'
 // import About from '@/views/About'
 
 export default {
@@ -54,18 +56,18 @@ export default {
   data: () => ({
     dashboards: [],
     index: 0,
-    mode: 'app'
+    mode: 'dark'
   }),
   methods: {
     addDashboard () {
       this.index++
       this.dashboards.push({ title: 'Dashboard' + this.index })
     }
-    // components: {
-    //   Header,
-    //   Home,
-    //   About
-    // }
+  },
+  components: {
+    // Header,
+    Home
+    //  About
   }
 }
 </script>

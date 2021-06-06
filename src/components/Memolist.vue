@@ -17,6 +17,7 @@
         </v-icon>
         <span class="text-h6 font-weight-light">Memo</span>
         <v-spacer></v-spacer>
+        <button>
         <v-btn
         color='#FFFDE7'
         @click="save"
@@ -29,6 +30,7 @@
         >
           삭제
         </v-btn>
+        </button>
       </v-row>
     </v-card-title>
     <v-row no-gutters>
@@ -81,12 +83,20 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 textarea {
   background: #c3c3c3;
 }
 .dark textarea {
     background: #15202B;
     color: #c3c3c3;
+}
+.dark div {
+    background: #091f35;
+    color: #c3c3c3;
+}
+.dark button {
+    background: #1c1f20;
+    color: #e9d7e8f3;
 }
 </style>

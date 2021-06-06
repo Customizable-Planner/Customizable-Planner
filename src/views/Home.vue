@@ -1,17 +1,18 @@
 <template>
+<div>
     <v-main id="main" class="grey lighten-3">
       <v-container>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg">
-              <v-list color="transparent">
+            <v-sheet rounded="lg" class="sheet" :class="mode">
+              <v-list color="transparent" class>
                 <v-list-item
                   v-for="(module, index) in modules"
                   :key="index"
                   link
                 >
-                  <v-list-item-content>
-                    <v-list-item-title
+                  <v-list-item-content class="tester2" >
+                    <v-list-item-title class="sheettext" :class="mode"
                     @click="addModule(index)">
                     {{ module }}
                     </v-list-item-title>
@@ -24,7 +25,7 @@
                   link
                   color="grey lighten-4"
                 >
-                  <v-list-item-content>
+                  <v-list-item-content class="tester" >
                     <v-list-item-title @click="$router.push({name: 'about'})">
                       ab
                     </v-list-item-title>
@@ -68,6 +69,7 @@
         </v-row>
       </v-container>
     </v-main>
+</div>
 </template>
 
 <script>
@@ -78,6 +80,7 @@ import Todolist from '../components/Todolist.vue'
 const Datastore = require('nedb-promises')
 const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
 export default {
+  props: ['mode'],
   components: { Memolist, Todolist, LoadImage },
   methods: {
     async addModule (index) {
@@ -148,12 +151,31 @@ export default {
   })
 }
 </script>
-<style>
-
+<style scoped>
 .my-active-class {
     border: 1px solid black;
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
+
+.app {
+  width: 100vw;
+  min-height: 100vh;
+  background: #F3F3F3;
+  color: #15202B;
+}
+.dark li {
+  background: #243a4e;
+  color: #F3F3F3;
+}
+.dark {
+  background: #344657;
+  color: #F3F3F3;
+}
+.dark button{
+  background: #243a4e;
+  color: #F3F3F3;
+}
+
 </style>

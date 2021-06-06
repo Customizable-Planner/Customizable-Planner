@@ -15,7 +15,7 @@
           <div class="btn-group pull-right">
             <v-btn v-if="todo.completed" class="complete completed" outlined small>Complete</v-btn>
             <v-btn v-else class="complete" outlined small>UComplete</v-btn>
-            <v-btn @click="deleteTodo(index)" class="delete" color="secondary" outlined small>Delete</v-btn>
+            <v-btn @click="deleteTodo(index)" class="delete" outlined small>Delete</v-btn>
           </div>
         </li>
       </draggable>
@@ -28,6 +28,7 @@ import draggable from 'vuedraggable'
 
 export default {
   name: 'Todolist',
+  props: ['mode'],
   components: {
     draggable
   },
@@ -70,3 +71,27 @@ export default {
   }
 }
 </script>
+<style scoped>
+.app {
+  width: 100vw;
+  min-height: 100vh;
+  background: #F3F3F3;
+  color: #15202B;
+}
+.dark li {
+  background: #243a4e;
+  color: #F3F3F3;
+}
+.dark button{
+  background: #084885;
+  color: #F3F3F3;
+}
+.dark div{
+  background: #2a3e52;
+  color: #F3F3F3;
+}
+.dark input{
+  background: #5d768f;
+  color: #361717;
+}
+</style>
