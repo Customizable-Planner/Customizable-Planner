@@ -6,7 +6,7 @@
           label="투두리스트 입력"
           value=""
         ></v-textarea>
-        <v-btn v-if="mode === 'add'" @click="listAdd">리스트 추가</v-btn>
+        <v-btn v-if="mode === 'add'" @click="listAdd">complete</v-btn>
         <v-btn v-else @click="listEdit">리스트 수정</v-btn>
     </div>
 </template>
