@@ -143,7 +143,8 @@
 <script>
 import { db } from '@/main'
 const fs = require('fs')
-const {google} = require('googleapis');
+// const { google } = require('googleapis')
+var credentials = '' // credentials.json 을 parsing한게 요따가 저장됨
 
 export default {
   data: () => ({
@@ -210,29 +211,9 @@ export default {
       console.log('testMethod를 한번 실행해보았습니다')
       fs.readFile('credentials.json', (err, content) => {
         if (err) return console.log('Error loading client secret file:', err)
+        credentials = JSON.parse(content)
         console.log('credentials.json을 잘 읽었습니다')
-        console.log(JSON.parse(content))
-        const {client_secret, client_id, redirect_uris} = JSON.parse(content).installed
-        const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
-        oAuth2Client.setCredentials(JSON.parse('token.json'))
-        // 이제 일정 추가하면 됨
-        
-        const calendar = google.calendar({version: 'v3', oAuth2Client});
-        const event = {
-          summary: '여름휴가',
-          location: '장소',
-          description: 'description',
-          colorId: 1,
-          start: {
-            dateTime: '2021-06-10T14:00:00+09:00',
-            timeZone: ''
-          },
-          end: {
-            dateTime: '2021-06-12T14:00:00+09:00',
-            timeZone: ''
-          }
-        };
-        calendar.events.insert({ calendarId: 'primary', resource: event });
+        console.log(credentials)
       })
     },
     async getEvents () {
