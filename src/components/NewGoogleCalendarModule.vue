@@ -142,18 +142,36 @@
 
 <script>
 import { db } from '@/main'
+const readline = require('readline')
 const fs = require('fs')
 const { google } = require('googleapis')
-var credentials = '' // credentials.json 을 parsing한게 요따가 저장됨
-var oAuth2Client = new google.auth.OAuth2()
 const SCOPES = ['https://www.googleapis.com/auth/calendar']
 const TOKEN_PATH = 'token.json'
+var credentials // credentials.json 을 parsing한게 요따가 저장됨
+var oAuth2Client
+// 토큰관련 함수
 function getAccessToken (oAuth2Client) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES
   })
   console.log('Authorize this app by visiting this url:', authUrl)
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+  rl.question('Enter the code from that page here: ', (code) => {
+    rl.close()
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) return console.error('Error retrieving access token', err)
+      oAuth2Client.setCredentials(token)
+      // Store the token to disk for later program executions
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+        if (err) return console.error(err)
+        console.log('Token stored to', TOKEN_PATH)
+      })
+    })
+  })
 }
 
 export default {
@@ -183,8 +201,7 @@ export default {
   mounted () {
     console.log('mounted')
     this.getEvents()
-    this.testMethod()
-    this.authorize(credentials)
+    // this.testMethod()
   },
   computed: {
     title () {
@@ -225,26 +242,76 @@ export default {
         credentials = JSON.parse(content)
         console.log('credentials.json을 잘 읽었습니다')
         console.log(credentials)
+        // authorize 시작
+        console.log('이제 authorize를 할겁니다')
+        const clientSecret = credentials.installed.client_secret
+        const clientId = credentials.installed.client_id
+        const redirectUris = credentials.installed.redirect_uris
+        oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0])
+        console.log(oAuth2Client)
+        // token.json관련 시작
+        fs.readFile(TOKEN_PATH, (err, token) => {
+          if (err) return getAccessToken(oAuth2Client)
+          oAuth2Client.setCredentials(JSON.parse(token))
+          console.log(JSON.parse(token))
+          // insert 시작
+          const calendar = google.calendar({ version: 'v3', oAuth2Client })
+          const event = {
+            summary: '제발되라',
+            location: '장소',
+            description: 'description',
+            colorId: 1,
+            start: {
+              dateTime: '2021-06-10T14:00:00+09:00',
+              timeZone: ''
+            },
+            end: {
+              dateTime: '2021-06-12T14:00:00+09:00',
+              timeZone: ''
+            }
+          }
+          calendar.events.insert({ calendarId: 'primary', resource: event })
+        })
       })
     },
-    authorize (cred) {
-      console.log('authorize 함수 실행')
-      const { clientSecret, clientId, redirectUris } = cred.installed
-      oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0])
-      // token.json parsing 시작
-      fs.readFile(TOKEN_PATH, (err, tokenCase) => {
-        if (err) return getAccessToken(oAuth2Client)
-        oAuth2Client.setCredentials(JSON.parse(tokenCase))
-        console.log('token.json을 잘 parsing 했습니다.')
-        console.log(JSON.parse(tokenCase))
+    insertGoogle () {
+      // Require google from googleapis package.
+      const { google } = require('googleapis')
+
+      // Require oAuth2 from our google instance.
+      const { OAuth2 } = google.auth
+
+      // Create a new instance of oAuth and set our Client ID & Client Secret.
+      const oAuth2Client = new OAuth2(
+        '1005543656495-6u9p67depvv7po9uhk19scu15btudes3.apps.googleusercontent.com',
+        'mI0lJgqNvCTe6kZerRn2kO1Q'
+      )
+
+      // Call the setCredentials method on our oAuth2Client instance and set our refresh token.
+      oAuth2Client.setCredentials({
+        refresh_token: '1//04ONoWLwbbwo2CgYIARAAGAQSNwF-L9IruyR9-Xlff-qV3fXRTYns39cANIzzGeAgrXbp4JbVEklJjdPBfVopjL2q7TNxGjUr7pk'
       })
-    },
-    getAccessToken (oAuth2Client) {
-      const authUrl = oAuth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: SCOPES
-      })
-      console.log('Authorize this app by visiting this url:', authUrl)
+
+      // Create a new calender instance.
+      const calendar = google.calendar({ version: 'v3', auth: oAuth2Client })
+
+      // Create a dummy event for temp uses in our calendar
+      const event = {
+        summary: this.name,
+        location: '',
+        description: this.details,
+        colorId: 1,
+        start: {
+          dateTime: this.start + 'T14:00:00+09:00',
+          timeZone: ''
+        },
+        end: {
+          dateTime: this.end + 'T14:00:00+09:00',
+          timeZone: ''
+        }
+      }
+
+      calendar.events.insert({ calendarId: 'primary', resource: event })
     },
     async getEvents () {
       console.log('getEvents')
@@ -281,6 +348,7 @@ export default {
     },
     async addEvent () {
       console.log('addEvent')
+      // this.insertGoogle() // !!!! gogle calendar로 데이터 보냄!!!!
       if (this.name && this.start && this.end) {
         await db.collection('calEvent').add({
           name: this.name,
@@ -289,6 +357,7 @@ export default {
           end: this.end,
           color: this.color
         })
+        this.insertGoogle() // !!!! gogle calendar로 데이터 보내야할 자리!!!
         this.getEvents()
         this.name = ''
         this.details = ''
