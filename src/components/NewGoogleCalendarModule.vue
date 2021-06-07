@@ -202,6 +202,7 @@ export default {
     console.log('mounted')
     this.getEvents()
     // this.testMethod()
+    this.getEventAllGoogle()
   },
   computed: {
     title () {
@@ -312,6 +313,31 @@ export default {
       }
 
       calendar.events.insert({ calendarId: 'primary', resource: event })
+    },
+    getEventAllGoogle () {
+      // Require google from googleapis package.
+      const { google } = require('googleapis')
+
+      // Require oAuth2 from our google instance.
+      const { OAuth2 } = google.auth
+
+      // Create a new instance of oAuth and set our Client ID & Client Secret.
+      const oAuth2Client = new OAuth2(
+        '1005543656495-6u9p67depvv7po9uhk19scu15btudes3.apps.googleusercontent.com',
+        'mI0lJgqNvCTe6kZerRn2kO1Q'
+      )
+
+      // Call the setCredentials method on our oAuth2Client instance and set our refresh token.
+      oAuth2Client.setCredentials({
+        refresh_token: '1//04ONoWLwbbwo2CgYIARAAGAQSNwF-L9IruyR9-Xlff-qV3fXRTYns39cANIzzGeAgrXbp4JbVEklJjdPBfVopjL2q7TNxGjUr7pk'
+      })
+
+      // Create a new calender instance.
+      const calendar = google.calendar({ version: 'v3', auth: oAuth2Client })
+      const myEventData = calendar.events.list({ calendarId: 'primary' })
+      console.log(myEventData)
+      const temp = myEventData.itmes['0'].summary
+      console.log(temp)
     },
     async getEvents () {
       console.log('getEvents')
