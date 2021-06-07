@@ -1,38 +1,36 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar
-      app
-      color="white"
-      flat
-    >
-      <v-container class="py-0 fill-height">
-        <v-avatar
-          class="mr-10"
-          color="grey darken-1"
-          size="32"
-        ></v-avatar>
-        <v-btn
-          v-for="dashboard in dashboards"
-          :key="dashboard.title"
-          text
-          @click="clickedNum(dashboard._id)"
-        >
-          {{ dashboard.title }}
-        </v-btn>
-        <v-btn
-        small dark fab text color="purple"
-        @click="addDashboard">
-          <v-icon>
-            mdi-plus
-          </v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-
-      </v-container>
-    </v-app-bar>
-    <div class="app" :class="mode">
+<v-app :class="mode">
+  <header>
+        <v-container class="py-0 fill-height">
+          <v-avatar
+            class="mr-10"
+            color="grey darken-1"
+            size="32"
+          ></v-avatar>
+          <v-btn
+            v-for="(dashboard, index) in dashboards"
+            :key="index"
+            text
+            @click="clickedNum(index)"
+          >
+            {{ dashboard.title }}
+          </v-btn>
+          <v-btn
+          small dark fab text color="purple"
+          @click="addDashboard">
+            <v-icon>
+              mdi-plus
+            </v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-container>
+      </header>
+    <!-- <v-content>
+      <router-view></router-view>
+    </v-content> -->
+  <div class="app" :class="mode">
       <Home :mode="mode"/>
-    </div>
+  </div>
   <!-- <div class="app" :class="mode">
     <Header :mode="mode"/>
     <Home :mode="mode"/>
@@ -41,13 +39,12 @@
       <router-view></router-view>
     </v-content>
   </div> -->
-  </v-app>
+</v-app>
 </template>
-
 <script>
-// import Header from '@/components/Header'
+// import Header2 from '@/components/Header2'
 import Home from '@/views/Home'
-import { indexBus } from './main'
+import { indexBus, modeBus } from './main'
 // import About from '@/views/About'
 
 const Datastore = require('nedb-promises')
@@ -55,10 +52,21 @@ const dashboarddb = Datastore.create('/path/to/dashboarddb.db') // 대쉬보드 
 export default {
   name: 'app',
   data: () => ({
-    dashboards: [],
-    index: 0,
-    mode: 'app'
+    dashboards: [
+      {
+        title: 'Dashboard1',
+        num: 0
+      }
+    ],
+    index: 1,
+    mode: 'dark',
+    sendWhat: 0
   }),
+  created () {
+    modeBus.$on('toggleChange', mode => {
+      this.mode = mode
+    })
+  },
   async mounted () {
     await dashboarddb.remove({}, { multi: true })
     await dashboarddb.insert({ title: 'Dashboard1', _id: 1 })
@@ -79,9 +87,7 @@ export default {
     }
   },
   components: {
-    //   Header,
     Home
-    //   About
   }
 }
 </script>
@@ -93,13 +99,19 @@ export default {
   font-family: 'Roboto';
 }
 .app {
-  width: 100vw;
-  min-height: 100vh;
   background: #F3F3F3;
   color: #15202B;
 }
 .dark {
   background: #192734;
   color: #F3F3F3;
+}
+header {
+    height: 60px;
+    background: #c3c3c3;
+}
+.dark header {
+    background: #403047;
+    color: #FFFFFF
 }
 </style>

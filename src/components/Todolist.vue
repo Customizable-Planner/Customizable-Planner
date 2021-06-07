@@ -30,7 +30,7 @@ const Datastore = require('nedb-promises')
 const tododb = Datastore.create('/path/to/tododb.db')
 export default {
   name: 'Todolist',
-  props: ['id'],
+  props: ['id', 'mode'],
   components: {
     draggable
   },
@@ -86,3 +86,27 @@ export default {
   }
 }
 </script>
+<style scoped>
+.app {
+  width: 100vw;
+  min-height: 100vh;
+  background: #F3F3F3;
+  color: #15202B;
+}
+.dark li {
+  background: #243a4e;
+  color: #F3F3F3;
+}
+.dark button{
+  background: #084885;
+  color: #F3F3F3;
+}
+.dark div{
+  background: #2a3e52;
+  color: #F3F3F3;
+}
+.dark input{
+  background: #5d768f;
+  color: #361717;
+}
+</style>

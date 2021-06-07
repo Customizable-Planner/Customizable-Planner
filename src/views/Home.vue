@@ -1,16 +1,16 @@
 <template>
-    <v-main id="main" class="grey lighten-3">
-      <v-container>
+<content>
+      <v-container fluid>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg">
+            <v-sheet rounded="lg" class="litem" :class="mode">
               <v-list color="transparent">
                 <v-list-item
                   v-for="(module, index) in modules"
                   :key="index"
                   link
                 >
-                  <v-list-item-content>
+                  <v-list-item-content class="litem2" :class="mode">
                     <v-list-item-title
                     @click="addModule(index)">
                     {{ module }}
@@ -43,25 +43,17 @@
                   </v-btn>
                 </v-overlay>
                 <v-divider class="my-2"></v-divider>
-                <p>plug-in</p>
-                <v-list-item
-                  link
-                  color="grey lighten-4"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title @click="$router.push({name: 'about'})">
-                      ab
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
+                <Toggle :mode="mode" @toggle="toggle"/>
               </v-list>
             </v-sheet>
           </v-col>
 
           <v-col>
             <v-sheet
-              min-height="70vh"
+              height="900"
+              width="1300"
               rounded="lg"
+              class="litem" :class="mode"
             >
               <vue-draggable-resizable
                 class-name-active="my-active-class"
@@ -90,20 +82,22 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-main>
+</content>
 </template>
 
 <script>
 import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
-import { indexBus } from '../main'
+import Toggle from '../components/Toggle.vue'
+import { indexBus, modeBus } from '../main'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 const Datastore = require('nedb-promises')
 const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
 // pageinfo db 구성요소 = 모듈type / poseX / poseY / _id( 이 값은 고유값 )
 export default {
-  components: { Memolist, Todolist, LoadImage },
+  props: ['mode'],
+  components: { Memolist, Todolist, LoadImage, Toggle },
   async created () {
     indexBus.$on('sendNum', async (info) => {
       this.sendWhat = info
@@ -113,15 +107,16 @@ export default {
     })
   },
   methods: {
-    // 메모 add 버튼 클릭할 경우, memo 배열에 memo 추가해서 메모 개수 확인.
-    // 대쉬보드 업데이트해서 위에 for문을 대쉬보드에 들어있는 내용이 출력되게 만듬.
-    // async addMemo (index) {
-    // console.log('index', index)
-    // const memoNum = await pageInfodb.find({ type: 'Memolist' })
-    // console.log('memoNum', memoNum)
-    // this.memos.push({ memo: 'memo' })
-    // 생성시에 타입 넘김
-    // await pageInfodb.insert({ type: 'Memolist', poseX: 0, poseY: 0 })
+    toggle () {
+      if (this.mode === 'dark') {
+        this.mode = 'app'
+      } else {
+        this.mode = 'dark'
+      }
+      modeBus.changeMode(this.mode)
+      console.log('**************************')
+      console.log('home.vue -->' + this.mode)
+    },
     async upload () {
       this.overlay = false
       console.log(this.insertedImage)
@@ -184,6 +179,7 @@ export default {
   data: () => ({
     overlay: false,
     insertedImage: null,
+    sendWhat: 0,
     modules: [
       'Memolist',
       'Image',
@@ -208,12 +204,33 @@ export default {
   })
 }
 </script>
-<style>
-
+<style scoped>
 .my-active-class {
     border: 1px solid black;
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
+
+.app {
+  background: #ffffff;
+  color: #15202B;
+}
+.dark li {
+  background: #243a4e;
+  color: #F3F3F3;
+}
+.dark {
+  background: #354c63;
+  color: #F3F3F3;
+}
+.dark button{
+  background: #243a4e;
+  color: #F3F3F3;
+}
+.dark content {
+  background: #16222e;
+  color: #F3F3F3;
+}
+
 </style>
