@@ -1,7 +1,7 @@
 <template>
 <div>
     <v-main id="main" class="grey lighten-3">
-      <v-container>
+      <v-container fluid>
         <v-row>
           <v-col cols="2">
             <v-sheet rounded="lg">
@@ -11,7 +11,7 @@
                   :key="index"
                   link
                 >
-                  <v-list-item-content class="litem" :class="mode">
+                  <v-list-item-content class="litem">
                     <v-list-item-title
                     @click="addModule(index)">
                     {{ module }}
@@ -20,11 +20,6 @@
                 </v-list-item>
 
                 <v-divider class="my-2"></v-divider>
-                <p>plug-in</p>
-                <v-btn
-                @click="whichDashboard">
-                what
-                </v-btn>
                 <Toggle :mode="mode" @toggle="toggle"/>
               </v-list>
             </v-sheet>
@@ -32,7 +27,8 @@
 
           <v-col>
             <v-sheet
-              min-height="70vh"
+              height="900"
+              width="1300"
               rounded="lg"
             >
               <vue-draggable-resizable

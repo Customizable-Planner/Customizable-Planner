@@ -39,6 +39,7 @@
         name="input-7-4"
         label="Memo"
         value="write your memo"
+        :class="mode"
       >
       </v-textarea>
     </v-row>
@@ -97,6 +98,9 @@ textarea {
 }
 .dark button {
     background: #1c1f20;
-    color: #e9d7e8f3;
+    color: #5773faf3;
+}
+.dark v-textarea {
+    color: #ff0101;
 }
 </style>
