@@ -25,12 +25,6 @@
                 @click="whichDashboard">
                 what
                 </v-btn>
-                <v-container fluid>
-                  <v-switch
-                    v-model="switch1"
-                    :label="`Dark : ${switch1.toString()}`"
-                  ></v-switch>
-                </v-container>
                 <Toggle :mode="mode" @toggle="toggle"/>
               </v-list>
             </v-sheet>
@@ -78,7 +72,7 @@ import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
 import Toggle from '../components/Toggle.vue'
-import { indexBus } from '../main'
+import { indexBus, modeBus } from '../main'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 const Datastore = require('nedb-promises')
 const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
@@ -97,6 +91,9 @@ export default {
       } else {
         this.mode = 'dark'
       }
+      modeBus.changeMode(this.mode)
+      console.log('**************************')
+      console.log('home.vue -->' + this.mode)
     },
     whichDashboard () {
       console.log(this.sendWhat)
@@ -145,7 +142,6 @@ export default {
     }
   },
   data: () => ({
-    switch1: false,
     sendWhat: 0,
     modules: [
       'Memolist',

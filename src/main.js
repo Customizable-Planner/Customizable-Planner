@@ -29,6 +29,14 @@ export const indexBus = new Vue({
   }
 })
 
+export const modeBus = new Vue({
+  methods: {
+    changeMode (mode) {
+      this.$emit('toggleChange', mode)
+    }
+  }
+})
+
 new Vue({
   router,
   store,

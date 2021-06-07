@@ -26,7 +26,6 @@
               mdi-plus
             </v-icon>
           </v-btn>
-          <Toggle :mode="mode" @toggle="toggle"/>
           <v-spacer></v-spacer>
         </v-container>
       </v-app-bar>
@@ -34,7 +33,7 @@
       <router-view></router-view>
     </v-content> -->
   <div class="app" :class="mode">
-      <Home :mode="mode" @toggle="toggle"/>
+      <Home :mode="mode"/>
   </div>
   <!-- <div class="app" :class="mode">
     <Header :mode="mode"/>
@@ -49,8 +48,7 @@
 <script>
 // import Header2 from '@/components/Header2'
 import Home from '@/views/Home'
-import Toggle from '@/components/Toggle'
-import { indexBus } from './main'
+import { indexBus, modeBus } from './main'
 // import About from '@/views/About'
 
 export default {
@@ -66,6 +64,11 @@ export default {
     mode: 'dark',
     sendWhat: 0
   }),
+  created () {
+    modeBus.$on('toggleChange', mode => {
+      this.mode = mode
+    })
+  },
   methods: {
     addDashboard () {
       this.index++
@@ -74,18 +77,10 @@ export default {
     clickedNum (index) {
       // 데쉬보드 데이타베이스
       indexBus.infoDashboard(index)
-    },
-    toggle () {
-      if (this.mode === 'dark') {
-        this.mode = 'app'
-      } else {
-        this.mode = 'dark'
-      }
     }
   },
   components: {
-    Home,
-    Toggle
+    Home
   }
 }
 </script>

@@ -1,16 +1,30 @@
 <template>
-    <div class="toggle-wrapper">
-        <label class="toggle">
-            <input type="checkbox" :checked="(mode === 'dark' ) ? 'checked' : false"
-            @change="$emit('toggle')"
-            />
-            <span class="toggler round"></span>
-        </label>
+    <div>
+        <v-row
+        dense
+        align="center">
+            <v-switch
+            v-model="switchMode"
+            @click="$emit('toggle')"
+            ></v-switch>
+            <v-input
+            dense>
+                <h1>{{ this.switchMode ? 'dark' : 'app' }}</h1>
+            </v-input>
+        </v-row>
     </div>
 </template>
 <script>
 export default {
-  props: ['mode']
+  props: ['mode'],
+  data: () => ({
+    switchMode: true
+  }),
+  computed: {
+    messages () {
+      return this.switchMode ? ['dark'] : ['app']
+    }
+  }
 }
 </script>
 <style scoped>
