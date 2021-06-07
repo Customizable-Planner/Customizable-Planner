@@ -1,5 +1,5 @@
 <template>
-<v-container class="container">
+<v-container class="container" v-on:mouseup="todoClick">
   <h2>Todo List</h2>
   <div class="input-group" style="margin-bottom:10px;">
     <input type="text" class="form-control" placeholder="입력" v-model="name" v-on:keyup.enter="createTodo(name)">
@@ -9,12 +9,12 @@
   </div>
     <ul class="list-group">
       <draggable v-model="todos">
-        <li class="list-group-item" v-for="(todo) in todos" v-bind:key="todo" @click="completeTodo(todo._id)">
+        <li class="list-group-item" v-for="(todo) in todos" v-bind:key="todo._id">
         <v-icon v-if="todo.completed">mdi-check</v-icon>
-        {{todo.name}}
+          {{todo.name}}
           <div class="btn-group pull-right">
-            <v-btn v-if="todo.completed" class="complete completed" outlined small>Complete</v-btn>
-            <v-btn v-else class="complete" outlined small>UComplete</v-btn>
+            <v-btn v-if="todo.completed" class="complete completed" outlined small @click="completeTodo(todo._id)">Complete</v-btn>
+            <v-btn v-else class="complete" outlined small @click="completeTodo(todo._id)">UComplete</v-btn>
             <v-btn @click="deleteTodo(todo._id)" class="delete" color="secondary" outlined small>Delete</v-btn>
           </div>
         </li>
@@ -39,8 +39,16 @@ export default {
       todos: []
     }
   },
+  watch: {
+    async id () {
+      this.todos = await tododb.find({ id: this.id })
+      console.log('watch todolist ----------', this.todos)
+    }
+  },
   async mounted () {
-    this.todos = await tododb.find({ _id: this.id })
+    tododb.remove({}, { multi: true })
+    this.todos = await tododb.find({ id: this.id })
+    console.log('mount todolist ----------', this.todos)
   },
   methods: {
     async deleteTodo (id) {
@@ -57,10 +65,18 @@ export default {
         this.todos = await tododb.find({ id: this.id })
       }
     },
-    async completeTodo (id) {
-      const istrue = await tododb.find({ _id: id })
-      await tododb.update({ _id: id }, { $set: { completed: !istrue.completed } })
+    async completeTodo (_id) {
+      const istrue = await tododb.find({ _id: _id })
+      istrue.completed = !istrue.completed
+      console.log('val eeeeeeeeeeeeeeeeeeeeeeeeeeeee', !istrue.completed)
+      tododb.update({ _id: _id }, { $set: { completed: istrue.completed } })
       this.todos = await tododb.find({ id: this.id })
+      console.log('complete Todo ````````````````````````', this.todos)
+    },
+    todoClick (x, y) {
+      const todoindex = { id: this.id, type: 'Todolist', x: x, y: y }
+      console.log('in ToDoClick', todoindex)
+      this.$emit('pick-data', todoindex)
     }
   }
 }
