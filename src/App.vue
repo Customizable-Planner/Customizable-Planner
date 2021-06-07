@@ -1,10 +1,40 @@
 <template>
+<v-app>
+  <v-app-bar
+        app
+        color="white"
+        flat
+      >
+        <v-container class="py-0 fill-height">
+          <v-avatar
+            class="mr-10"
+            color="grey darken-1"
+            size="32"
+          ></v-avatar>
+          <v-btn
+            v-for="(dashboard, index) in dashboards"
+            :key="index"
+            text
+            @click="clickedNum(index)"
+          >
+            {{ dashboard.title }}
+          </v-btn>
+          <v-btn
+          small dark fab text color="purple"
+          @click="addDashboard">
+            <v-icon>
+              mdi-plus
+            </v-icon>
+          </v-btn>
+          <Toggle :mode="mode" @toggle="toggle"/>
+          <v-spacer></v-spacer>
+        </v-container>
+      </v-app-bar>
     <!-- <v-content>
       <router-view></router-view>
     </v-content> -->
   <div class="app" :class="mode">
-      <Header2 :mode="mode"/>
-      <Home :mode="mode"/>
+      <Home :mode="mode" @toggle="toggle"/>
   </div>
   <!-- <div class="app" :class="mode">
     <Header :mode="mode"/>
@@ -14,29 +44,48 @@
       <router-view></router-view>
     </v-content>
   </div> -->
+</v-app>
 </template>
 <script>
-import Header2 from '@/components/Header2'
+// import Header2 from '@/components/Header2'
 import Home from '@/views/Home'
+import Toggle from '@/components/Toggle'
+import { indexBus } from './main'
 // import About from '@/views/About'
 
 export default {
   name: 'app',
   data: () => ({
-    dashboards: [],
-    index: 0,
-    mode: 'dark'
+    dashboards: [
+      {
+        title: 'Dashboard1',
+        num: 0
+      }
+    ],
+    index: 1,
+    mode: 'dark',
+    sendWhat: 0
   }),
   methods: {
     addDashboard () {
       this.index++
-      this.dashboards.push({ title: 'Dashboard' + this.index })
+      this.dashboards.push({ title: 'Dashboard' + this.index, num: this.index })
+    },
+    clickedNum (index) {
+      // 데쉬보드 데이타베이스
+      indexBus.infoDashboard(index)
+    },
+    toggle () {
+      if (this.mode === 'dark') {
+        this.mode = 'app'
+      } else {
+        this.mode = 'dark'
+      }
     }
   },
   components: {
-    Header2,
-    Home
-    //  About
+    Home,
+    Toggle
   }
 }
 </script>

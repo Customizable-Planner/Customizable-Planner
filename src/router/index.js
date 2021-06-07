@@ -7,9 +7,6 @@ Vue.use(VueRouter)
 const About = () => {
   return import(/* webpackChunkName: "about" */ '../views/About.vue')
 }
-const Dashboard = () => {
-  return import(/* webpackChunkName: "about" */ '../views/Dashboard.vue')
-}
 const Memolist = () => {
   return import(/* webpackChunkName: "about" */ '../components/Memolist.vue')
 }
@@ -45,11 +42,6 @@ const routes = [
         component: LoadImage
       }
     ]
-  },
-  {
-    path: '/dashboard:index',
-    name: 'dashboard',
-    component: Dashboard
   },
   {
     path: '/about',

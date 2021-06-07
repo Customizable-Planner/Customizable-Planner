@@ -21,18 +21,17 @@
 
                 <v-divider class="my-2"></v-divider>
                 <p>plug-in</p>
-                <v-divider class="my-3"></v-divider>
-                <p>Toggle</p>
+                <v-btn
+                @click="whichDashboard">
+                what
+                </v-btn>
                 <v-container fluid>
                   <v-switch
                     v-model="switch1"
-                    :label="`Switch 1: ${switch1.toString()}`"
+                    :label="`Dark : ${switch1.toString()}`"
                   ></v-switch>
-                  <v-switch
-                    v-model="switch2"
-                    :label="`Switch 2: ${switch2.toString()}`">
-                    </v-switch>
                 </v-container>
+                <Toggle :mode="mode" @toggle="toggle"/>
               </v-list>
             </v-sheet>
           </v-col>
@@ -78,13 +77,30 @@
 import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
+import Toggle from '../components/Toggle.vue'
+import { indexBus } from '../main'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 const Datastore = require('nedb-promises')
 const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호를 가진, 어떤 모듈이, 어디에 있었는지 정보 가짐.
 export default {
   props: ['mode'],
-  components: { Memolist, Todolist, LoadImage },
+  components: { Memolist, Todolist, LoadImage, Toggle },
+  created () {
+    indexBus.$on('sendNum', (info) => {
+      this.sendWhat = info
+    })
+  },
   methods: {
+    toggle () {
+      if (this.mode === 'dark') {
+        this.mode = 'app'
+      } else {
+        this.mode = 'dark'
+      }
+    },
+    whichDashboard () {
+      console.log(this.sendWhat)
+    },
     async addModule (index) {
       if (index === 0) {
         this.memos.push({ memo: 'memo' })
@@ -129,8 +145,8 @@ export default {
     }
   },
   data: () => ({
-    switch1: true,
-    switch2: false,
+    switch1: false,
+    sendWhat: 0,
     modules: [
       'Memolist',
       'Image',
