@@ -17,7 +17,31 @@
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
+                <v-list-item
+                  color="error"
+                  @click="overlay = !overlay"
+                >
+                  IMG UPLOAD
+                </v-list-item>
 
+                <v-overlay :value="overlay">
+                  <v-file-input
+                  v-model="insertedImage"
+                  accept="image/*"
+                  label="File input">
+                  </v-file-input>
+                  <v-btn
+                    @click="upload"
+                  >
+                  upload
+                  </v-btn>
+                  <v-btn
+                    icon
+                    @click="overlay = false"
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-overlay>
                 <v-divider class="my-2"></v-divider>
                 <p>plug-in</p>
                 <v-list-item
@@ -52,7 +76,7 @@
                 w="auto" h="auto"
               >
                 <memolist v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData" z-index=1></memolist>
-                <load-image v-else-if="item.type === 'Image'" v-bind:id="item._id" v-on:pick-data="pickData"></load-image>
+                <load-image v-else-if="item.type === 'Image'" v-bind:item="item" v-on:pick-data="pickData"></load-image>
                 <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData">
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on">
@@ -98,6 +122,15 @@ export default {
     // this.memos.push({ memo: 'memo' })
     // 생성시에 타입 넘김
     // await pageInfodb.insert({ type: 'Memolist', poseX: 0, poseY: 0 })
+    async upload () {
+      this.overlay = false
+      console.log(this.insertedImage)
+      console.log(URL.createObjectURL(this.insertedImage))
+      const url = URL.createObjectURL(this.insertedImage)
+      await pageInfodb.insert({ type: 'Image', poseX: 0, poseY: 0, dashid: this.sendWhat, url: url })
+      this.dashboard = await pageInfodb.find({ dashid: this.sendWhat })
+      console.log(this.dashboard)
+    },
     async addModule (index) {
       if (index === 0) {
         // this.memos.push({ memo: 'memo' })
@@ -115,7 +148,6 @@ export default {
     async deleteTodolist () {
       pageInfodb.remove({ type: 'Todolist', index: this.items.index, dashid: this.sendWhat }, { multi: true })
     },
-    // 메모 add 버튼 클릭할 경우, memo 배열에 memo 추가해서 메모 개수 확인.
     // 대쉬보드 업데이트해서 위에 for문을 대쉬보드에 들어있는 내용이 출력되게 만듬.
     onDrag (x, y) {
       this.items.poseX = x
@@ -150,6 +182,8 @@ export default {
     this.dashboard = await pageInfodb.find({ dashid: this.sendWhat })
   },
   data: () => ({
+    overlay: false,
+    insertedImage: null,
     modules: [
       'Memolist',
       'Image',

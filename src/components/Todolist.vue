@@ -39,16 +39,16 @@ export default {
       todos: []
     }
   },
+  async mounted () {
+    // tododb.remove({}, { multi: true })
+    this.todos = await tododb.find({ id: this.id })
+    console.log('mount todolist ----------', this.todos)
+  },
   watch: {
     async id () {
       this.todos = await tododb.find({ id: this.id })
       console.log('watch todolist ----------', this.todos)
     }
-  },
-  async mounted () {
-    tododb.remove({}, { multi: true })
-    this.todos = await tododb.find({ id: this.id })
-    console.log('mount todolist ----------', this.todos)
   },
   methods: {
     async deleteTodo (id) {
@@ -67,9 +67,14 @@ export default {
     },
     async completeTodo (_id) {
       const istrue = await tododb.find({ _id: _id })
-      istrue.completed = !istrue.completed
-      console.log('val eeeeeeeeeeeeeeeeeeeeeeeeeeeee', !istrue.completed)
-      tododb.update({ _id: _id }, { $set: { completed: istrue.completed } })
+      let cc = istrue.completed
+      if (istrue.completed === true) {
+        cc = false
+      } else {
+        cc = true
+      }
+      console.log('val eeeeeeeeeeeeeeeeeeeeeeeeeeeee', cc)
+      tododb.update({ _id: _id }, { $set: { completed: cc } })
       this.todos = await tododb.find({ id: this.id })
       console.log('complete Todo ````````````````````````', this.todos)
     },
