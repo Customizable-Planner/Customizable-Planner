@@ -143,8 +143,18 @@
 <script>
 import { db } from '@/main'
 const fs = require('fs')
-// const { google } = require('googleapis')
+const { google } = require('googleapis')
 var credentials = '' // credentials.json 을 parsing한게 요따가 저장됨
+var oAuth2Client = new google.auth.OAuth2()
+const SCOPES = ['https://www.googleapis.com/auth/calendar']
+const TOKEN_PATH = 'token.json'
+function getAccessToken (oAuth2Client) {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES
+  })
+  console.log('Authorize this app by visiting this url:', authUrl)
+}
 
 export default {
   data: () => ({
@@ -174,6 +184,7 @@ export default {
     console.log('mounted')
     this.getEvents()
     this.testMethod()
+    this.authorize(credentials)
   },
   computed: {
     title () {
@@ -216,8 +227,24 @@ export default {
         console.log(credentials)
       })
     },
-    authorize () {
-
+    authorize (cred) {
+      console.log('authorize 함수 실행')
+      const { clientSecret, clientId, redirectUris } = cred.installed
+      oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0])
+      // token.json parsing 시작
+      fs.readFile(TOKEN_PATH, (err, tokenCase) => {
+        if (err) return getAccessToken(oAuth2Client)
+        oAuth2Client.setCredentials(JSON.parse(tokenCase))
+        console.log('token.json을 잘 parsing 했습니다.')
+        console.log(JSON.parse(tokenCase))
+      })
+    },
+    getAccessToken (oAuth2Client) {
+      const authUrl = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: SCOPES
+      })
+      console.log('Authorize this app by visiting this url:', authUrl)
     },
     async getEvents () {
       console.log('getEvents')
