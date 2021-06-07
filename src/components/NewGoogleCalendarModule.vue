@@ -112,13 +112,13 @@
         {{ selectedEvent.details }}
       </form>
       <form v-else>
-        <textarea-autosize
+        <v-textarea
         v-model="selectedEvent.details"
         type="text"
         style="width: 100%"
         :min-height="100"
         placeholder="add note">
-      </textarea-autosize>
+      </v-textarea>
     </form>
   </v-card-text>
 
@@ -215,6 +215,9 @@ export default {
         console.log('credentials.json을 잘 읽었습니다')
         console.log(credentials)
       })
+    },
+    authorize () {
+
     },
     async getEvents () {
       console.log('getEvents')
