@@ -93,12 +93,12 @@ textarea {
     color: #c3c3c3;
 }
 .dark div {
-    background: #3f5368;
+    background: #6b8caf;
     color: #c3c3c3;
 }
 .dark button {
     background: #1c1f20;
-    color: #5773faf3;
+    color: #acb4daf3;
 }
 .dark v-textarea {
     color: #ff0101;

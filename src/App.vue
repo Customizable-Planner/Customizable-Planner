@@ -1,10 +1,6 @@
 <template>
-<v-app>
-  <v-app-bar
-        app
-        color="white"
-        flat
-      >
+<v-app :class="mode">
+  <header>
         <v-container class="py-0 fill-height">
           <v-avatar
             class="mr-10"
@@ -28,7 +24,7 @@
           </v-btn>
           <v-spacer></v-spacer>
         </v-container>
-      </v-app-bar>
+      </header>
     <!-- <v-content>
       <router-view></router-view>
     </v-content> -->
@@ -98,5 +94,13 @@ export default {
 .dark {
   background: #192734;
   color: #F3F3F3;
+}
+header {
+    height: 60px;
+    background: #c3c3c3;
+}
+.dark header {
+    background: #403047;
+    color: #FFFFFF
 }
 </style>

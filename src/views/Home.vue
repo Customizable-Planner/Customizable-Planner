@@ -1,17 +1,16 @@
 <template>
-<div>
-    <v-main id="main" class="grey lighten-3">
+<content>
       <v-container fluid>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg">
+            <v-sheet rounded="lg" class="litem" :class="mode">
               <v-list color="transparent">
                 <v-list-item
                   v-for="(module, index) in modules"
                   :key="index"
                   link
                 >
-                  <v-list-item-content class="litem">
+                  <v-list-item-content class="litem2" :class="mode">
                     <v-list-item-title
                     @click="addModule(index)">
                     {{ module }}
@@ -30,6 +29,7 @@
               height="900"
               width="1300"
               rounded="lg"
+              class="litem" :class="mode"
             >
               <vue-draggable-resizable
                 class-name-active="my-active-class"
@@ -59,8 +59,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-main>
-</div>
+</content>
 </template>
 
 <script>
@@ -172,18 +171,23 @@ export default {
 }
 
 .app {
+  background: #ffffff;
   color: #15202B;
 }
-/* .dark li {
+.dark li {
   background: #243a4e;
   color: #F3F3F3;
-} */
+}
 .dark {
-  background: #c3dcf3;
+  background: #354c63;
   color: #F3F3F3;
 }
 .dark button{
   background: #243a4e;
+  color: #F3F3F3;
+}
+.dark content {
+  background: #16222e;
   color: #F3F3F3;
 }
 
