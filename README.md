@@ -22,6 +22,9 @@
  * Google Calendar와 연동된 Advanced Calendar
  * 본인의 Google 계정에서 사용중인 Google Calendar로 일정을 POST할 수 있음
 
+### Dark Mode
+ * 기본모드와 다크모드 두 가지  사용가능 
+
 
 
 
@@ -43,7 +46,7 @@ yarn electron:serve
 ## :rocket: API
 사용자의 개발 편의성 및 ~~ 하기위해  각 모듈별 다음과 같은 API를 제공합니다.
 
-### JustCalendarModule.vue
+### 🗓️ JustCalendarModule.vue
 * Data
 ```c
 
@@ -96,7 +99,7 @@ end:
 
 
 
-### Home.vue
+### 🏠 Home.vue
 
 | Props | 설명 |
 |---|:---:|
@@ -124,7 +127,7 @@ end:
     |index|클릭한 모듈의 종류 구분|
     
 
-### Memolist.vue
+### 📝 Memolist.vue
 
 * Data
 
@@ -151,7 +154,7 @@ end:
 
 
 
-### Todolist.vue
+### 🗒️ Todolist.vue
 
 * Data
 
@@ -170,7 +173,7 @@ end:
   * todoClick: 현재 클릭한 id좌표를 전송
 
 
-### loadImage.vue
+### 📱 loadImage.vue
 * Data
 
     | Props | 설명 |
@@ -187,7 +190,7 @@ end:
 imageClick:
 
 
-### Toggle.vue
+### 💫 Toggle.vue
 * Data
 
     | Props | 설명 |
@@ -204,7 +207,7 @@ imageClick:
 ***
 
 
-## PageInfodb Components ( Module 추가시 활용 할 수 있는 DB)
+## :gear: PageInfodb Components ( Module 추가시 활용 할 수 있는 DB)
 
 
 | Columns | Description                                | type   | Example       | 
@@ -235,5 +238,5 @@ imageClick:
 * [Contribute Guildline](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/Contribution_Guide.md)
 
 
-## License
+## 📑 License
 * [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) MIT License
