@@ -234,7 +234,85 @@ imageClick:
 
 
 ## :wrench: Contribution
-* 추가할 내용있으면 수정바람
+### customModule.vue파일을 planner의 module로 추가 등록하는 법
+
+##### 	1. Home.vue <script>에 
+
+​		( a ) modules로 등록된 data에 module 이름을 추가	
+
+```js
+modules: [
+      'Memolist',
+      'Image',
+      'Todolist',
+      'Calendar',
+      // 예시
+      'customModule'
+    ]
+```
+
+
+
+​		( b ) Home.vue에서 쓸 수 있게 import
+
+```js
+import ‘customModule’ from ‘../components/customModule.vue’
+```
+
+
+
+​		( c ) components 요소에 customModule 추가
+
+```js
+components: { Memolist, Todolist, LoadImage, Toggle, customModule }
+```
+
+​	
+
+##### 	2. Home.vue <template>의 Dashboard에 해당하는 v-sheet에 element 추가
+
+```js
+<custom-module v-else-if="item.type === customModule" v-bind:item="item" v-on:pick-data="pickData" v-on:del-data="delData"></custom-module>
+```
+
+​	
+
+##### 	3. router폴더의 index.js파일에 Home component의 children으로 새로만든 module 추가	
+
+```js
+{
+    path: '/custommodule,
+    name: 'customModule',
+    component: () => import( '../components/customModule.vue')
+}
+```
+​	
+
+##### 	4. src/components 폴더에 개발자가 만든 vue파일(customModule.vue)추가
+​	
+#####	5. customMoudle에 삭제버튼 추가	
+
+​		( a ) customModule이라는 element를 Dashboard에서 삭제하는 경우를 위해서customModule.vue
+
+​				<script>에 methods 추가
+
+```js
+customClick (x, y) {
+    const customindex= { id: this.id, type: ‘customModule’, x: x, y: y }
+    this.$emit('pick-data', customindex)
+}
+```
+
+
+
+​		( b ) customModule.vue <template>에 삭제버튼이 들어갈 위치에 button element 추가
+
+```js
+<button class="btn btn-default" type="button" v-on:click="$emit('del-data', id)"><v-icon color="red">mdi-trash-can-outline</v-icon> </button>
+```
+
+
+
 * [Contribute Guildline](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/Contribution_Guide.md)
 
 
