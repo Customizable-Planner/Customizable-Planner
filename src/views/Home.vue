@@ -78,6 +78,9 @@
                   </template>
                 </todolist>
               </vue-draggable-resizable>
+              <vue-draggable-resizable>
+                <new-google-calendar-module/>
+              </vue-draggable-resizable>
             </v-sheet>
           </v-col>
         </v-row>
@@ -90,6 +93,7 @@ import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
 import Toggle from '../components/Toggle.vue'
+import NewGoogleCalendarModule from '../components/NewGoogleCalendarModule.vue'
 import { indexBus, modeBus } from '../main'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
 const Datastore = require('nedb-promises')
@@ -97,7 +101,7 @@ const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호�
 // pageinfo db 구성요소 = 모듈type / poseX / poseY / _id( 이 값은 고유값 )
 export default {
   props: ['mode'],
-  components: { Memolist, Todolist, LoadImage, Toggle },
+  components: { Memolist, Todolist, LoadImage, Toggle, NewGoogleCalendarModule },
   async created () {
     indexBus.$on('sendNum', async (info) => {
       this.sendWhat = info
