@@ -1,6 +1,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # :calendar: Customizable Planner
 
+Appmode          |  Dark
+:-------------------------:|:-------------------------:
+![demo1](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/demo1.png)  |  ![demo2](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/demo2.png)
+
 ## 우리 플래너 설명
 
 깔쌈한 문장 추천받아요
@@ -30,15 +34,15 @@
 
 ## :clipboard: Installation
 ### Prerequisite
-*  node.js, vue, electron 의 설치가 필요합니다.
-```c
+*  [node.js](https://nodejs.org/ko/download/), [vue](https://kr.vuejs.org/v2/guide/installation.html), [electron](https://www.electronjs.org/docs/tutorial/installation) 의 설치가 필요합니다.
+```js
 사용자 Installation 하는 방법
 > npm install -g vue-cli
 > npm install -g electron-forge
 
 ```
 ### 실행
-```c
+```js
 yarn electron:serve
 ```
 ***
@@ -46,18 +50,17 @@ yarn electron:serve
 ## :rocket: API
 사용자의 개발 편의성 및 ~~ 하기위해  각 모듈별 다음과 같은 API를 제공합니다.
 
+| API       |                        Components                          |
+|---------|--------------------------------------------------------------|
+| [JustCalendarModule](#justcalendarmodule.vue) | getEvents(),  setDialogDate({ date }), addEvent(), editEvent(ev), updateEvent(ev), deleteEvent (ev), showEvent ({ nativeEvent, event })    | 
+| [Home](#home.vue)   | upload(), pickData(data), delData(data), addModule(index)     | 
+| [Memolist](#memolist.vue)   | save(), memoDelete(id), memoClick(id)         |
+| [Todolist](#todolist.vue)  | deleteTodo(id), createTodo(), todoClick(id)  |
+| [loadImage](#loadimage.vue) | imageurl, imageClick(id) |
+| [Toggle](#toggle.vue)     | messages()     |
+
 ### 🗓️ JustCalendarModule.vue
-* Data
-```c
 
-name: 
-
-details: 
-
-start:
-
-end:
-```
 * Methods
  
 
@@ -101,9 +104,10 @@ end:
 
 ### 🏠 Home.vue
 
-| Props | 설명 |
-|---|:---:|
-|mode|dark, app : 다크모드, 기본모드|
+* Data
+   | Props | 설명 |
+   |---|:---:|
+   |mode|dark, app : 다크모드, 기본모드|
 
 * Methods
 
@@ -234,6 +238,7 @@ imageClick:
 
 
 ## :wrench: Contribution
+* [Contribute Guildline](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/Contribution_Guide.md)
 ### customModule.vue파일을 planner의 module로 추가 등록하는 법
 
 ##### 	1. Home.vue <script>에 
@@ -313,7 +318,6 @@ customClick (x, y) {
 
 
 
-* [Contribute Guildline](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/Contribution_Guide.md)
 
 
 ## 📑 License
