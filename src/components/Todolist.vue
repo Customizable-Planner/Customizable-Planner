@@ -19,7 +19,7 @@
           {{todo.name}}
           <div class="btn-group pull-right">
             <v-btn v-if="todo.completed" class="complete completed" outlined small @click="completeTodo(index)">Complete</v-btn>
-            <!-- <v-btn v-else class="complete" outlined small @click="completeTodo(index)">UComplete</v-btn> -->
+            <v-btn v-else class="complete" outlined small @click="completeTodo(index)">UComplete</v-btn>
             <v-btn @click="deleteTodo(todo._id)" class="delete" color="secondary" outlined small>Delete</v-btn>
           </div>
         </li>
