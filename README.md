@@ -52,12 +52,12 @@ yarn electron:serve
 
 | API       |                        Components                          |
 |---------|--------------------------------------------------------------|
-| [JustCalendarModule](#justcalendarmodule.vue) | getEvents(),  setDialogDate({ date }), addEvent(), editEvent(ev), updateEvent(ev), deleteEvent (ev), showEvent ({ nativeEvent, event })    | 
-| [Home](#home.vue)   | upload(), pickData(data), delData(data), addModule(index)     | 
-| [Memolist](#memolist.vue)   | save(), memoDelete(id), memoClick(id)         |
-| [Todolist](#todolist.vue)  | deleteTodo(id), createTodo(), todoClick(id)  |
-| [loadImage](#loadimage.vue) | imageurl, imageClick(id) |
-| [Toggle](#toggle.vue)     | messages()     |
+| [JustCalendarModule](#justcalendarmodulevue) | getEvents(),  setDialogDate({ date }), addEvent(), editEvent(ev), updateEvent(ev), deleteEvent (ev), showEvent ({ nativeEvent, event })    | 
+| [Home](#homevue)   | upload(), pickData(data), delData(data), addModule(index)     | 
+| [Memolist](#memolistvue)   | save(), memoDelete(id), memoClick(id)         |
+| [Todolist](#todolistvue)  | deleteTodo(id), createTodo(), todoClick(id)  |
+| [loadImage](#loadimagevue) | imageurl, imageClick(id) |
+| [Toggle](#togglevue)     | messages()     |
 
 ### 🗓️ JustCalendarModule.vue
 
