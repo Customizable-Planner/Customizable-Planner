@@ -69,16 +69,9 @@
               >
                 <memolist v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData" z-index=1></memolist>
                 <load-image v-else-if="item.type === 'Image'" v-bind:item="item" v-on:pick-data="pickData" v-on:del-data="delData"></load-image>
-                <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData">
-                <just-calendar-module />
-                <new-google-calendar-module/>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on">
-                      편집
-                    </v-btn>
-                    <v-btn v-if="active" @click="deleteTodolist">삭제</v-btn>
-                  </template>
-                </todolist>
+                <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></todolist>
+                <just-calendar-module v-else-if="item.type === 'JustCalendar'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></just-calendar-module>
+                <new-google-calendar-module v-else-if="item.type === 'GoogleCalendar'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></new-google-calendar-module>
               </vue-draggable-resizable>
             </v-sheet>
           </v-col>
@@ -131,16 +124,7 @@ export default {
       console.log(this.dashboard)
     },
     async addModule (index) {
-      if (index === 0) {
-        // this.memos.push({ memo: 'memo' })
-        await pageInfodb.insert({ type: 'Memolist', poseX: 0, poseY: 0, dashid: this.sendWhat })
-      } else if (index === 2) {
-        // this.todolists.push({ todo: 'todo' })
-        await pageInfodb.insert({ type: 'Todolist', poseX: 0, poseY: 0, dashid: this.sendWhat })
-      } else if (index === 1) {
-        // this.images.push({ image: 'image' })
-        await pageInfodb.insert({ type: 'Image', poseX: 0, poseY: 0, dashid: this.sendWhat })
-      }
+      await pageInfodb.insert({ type: this.modules[index], poseX: 0, poseY: 0, dashid: this.sendWhat })
       this.dashboard = await pageInfodb.find({ dashid: this.sendWhat })
       console.log(this.dashboard)
     },
