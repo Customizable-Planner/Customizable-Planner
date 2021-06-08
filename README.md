@@ -299,7 +299,7 @@ components: { Memolist, Todolist, LoadImage, Toggle, customModule }
 
 ```js
 customClick (x, y) {
-    const customindex= { id: this.id, type: ‘customModule’, x: x, y: y }
+    const customindex= { id: this.id, type: 'customModule', x: x, y: y }
     this.$emit('pick-data', customindex)
 }
 ```
