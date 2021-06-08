@@ -292,10 +292,15 @@ components: { Memolist, Todolist, LoadImage, Toggle, customModule }
 ##### 	4. src/components 폴더에 개발자가 만든 vue파일(customModule.vue)추가
 ​	
 #####	5. customMoudle에 삭제버튼 추가	
+	
+​		( a ) customModul.vue <script>에 props 가
+```js
+props: ['id'],
+```
+	
+	
 
-​		( a ) customModule이라는 element를 Dashboard에서 삭제하는 경우를 위해서customModule.vue
-
-​				<script>에 methods 추가
+​		( b ) customModule.vue <script>에 methods 추가
 
 ```js
 customClick (x, y) {
@@ -306,7 +311,7 @@ customClick (x, y) {
 
 
 
-​		( b ) customModule.vue <template>에 삭제버튼이 들어갈 위치에 button element 추가
+​		( c ) customModule.vue <template>에 삭제버튼이 들어갈 위치에 button element 추가
 
 ```js
 <button class="btn btn-default" type="button" v-on:click="$emit('del-data', id)"><v-icon color="red">mdi-trash-can-outline</v-icon></button>
