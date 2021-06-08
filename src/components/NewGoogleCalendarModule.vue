@@ -306,11 +306,11 @@ export default {
         description: this.details,
         colorId: 1,
         start: {
-          dateTime: this.start + 'T14:00:00+09:00',
+          date: this.start,
           timeZone: ''
         },
         end: {
-          dateTime: this.end + 'T16:00:00+09:00',
+          date: this.end,
           timeZone: ''
         }
       }
