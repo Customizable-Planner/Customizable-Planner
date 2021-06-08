@@ -1,6 +1,7 @@
 <template>
   <v-row class="fill-height">
     <v-col>
+      Just Calendar
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn color="primary" dark @click.stop="dialog = true">
