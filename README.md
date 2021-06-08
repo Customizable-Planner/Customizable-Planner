@@ -59,7 +59,7 @@ yarn electron:serve
 | [loadImage](#loadimagevue) | imageurl, imageClick(id) |
 | [Toggle](#togglevue)     | messages()     |
 
-### 🗓️ JustCalendarModule.vue
+### 🗓️JustCalendarModule.vue
 
 * Methods
  
@@ -102,7 +102,7 @@ yarn electron:serve
 
 
 
-### 🏠 Home.vue
+### 🏠Home.vue
 
 * Data
    | Props | 설명 |
@@ -131,7 +131,7 @@ yarn electron:serve
     |index|클릭한 모듈의 종류 구분|
     
 
-### 📝 Memolist.vue
+### 📝Memolist.vue
 
 * Data
 
@@ -158,7 +158,7 @@ yarn electron:serve
 
 
 
-### 🗒️ Todolist.vue
+### 🗒️Todolist.vue
 
 * Data
 
@@ -177,7 +177,7 @@ yarn electron:serve
   * todoClick: 현재 클릭한 id좌표를 전송
 
 
-### 📱 loadImage.vue
+### 📱loadImage.vue
 * Data
 
     | Props | 설명 |
@@ -194,7 +194,7 @@ yarn electron:serve
 imageClick:
 
 
-### 💫 Toggle.vue
+### 💫Toggle.vue
 * Data
 
     | Props | 설명 |
