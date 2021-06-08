@@ -89,7 +89,14 @@
         <calendar-module></calendar-module>
       </v-overlay>
       <!--컴포넌트 추가하는 부분-->
-      <new-google-calendar-module/>
+      <vue-draggable-resizable>
+        Google연동 캘린더
+        <new-google-calendar-module/>
+      </vue-draggable-resizable>
+      <vue-draggable-resizable>
+        일반 캘린더
+        <JCM/>
+      </vue-draggable-resizable>
 
     </v-card>
     <!--<v-fab-transition>
@@ -107,10 +114,11 @@
 <script>
 
 import NewGoogleCalendarModule from './NewGoogleCalendarModule.vue'
+import JCM from './JustCalendarModule.vue'
 
 export default {
   name: 'helloworld',
-  components: { NewGoogleCalendarModule },
+  components: { NewGoogleCalendarModule, JCM },
   data: function () {
     return {
       width: 0,

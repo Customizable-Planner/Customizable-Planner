@@ -52,7 +52,7 @@
               <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
               <v-text-field v-model="color" type="color" label="color (click to open color menu)"></v-text-field>
               <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog = false">
-                create event
+                일정 추가
               </v-btn>
             </v-form>
           </v-container>
@@ -69,75 +69,75 @@
               <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
               <v-text-field v-model="color" type="color" label="color (click to open color menu)"></v-text-field>
               <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog = false">
-                create event
+                일정 추가
               </v-btn>
             </v-form>
           </v-container>
         </v-card>
       </v-dialog>
 
-<v-sheet height="600">
-  <v-calendar
-  ref="calendar"
-  v-model="focus"
-  color="primary"
-  :events="events"
-  :event-color="getEventColor"
-  :event-margin-bottom="3"
-  :now="today"
-  :type="type"
-  @click:event="showEvent"
-  @click:more="viewDay"
-  @click:date="setDialogDate"
-  @change="updateRange"
-  ></v-calendar>
-  <v-menu
-  v-model="selectedOpen"
-  :close-on-content-click="false"
-  :activator="selectedElement"
-  full-width
-  offset-x
-  >
-  <v-card color="grey lighten-4" :width="350" flat>
-    <v-toolbar :color="selectedEvent.color" dark>
-      <v-btn @click="deleteEvent(selectedEvent.id)" icon>
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-      <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-      <div class="flex-grow-1"></div>
-    </v-toolbar>
+      <v-sheet height="600">
+        <v-calendar
+        ref="calendar"
+        v-model="focus"
+        color="primary"
+        :events="events"
+        :event-color="getEventColor"
+        :event-margin-bottom="3"
+        :now="today"
+        :type="type"
+        @click:event="showEvent"
+        @click:more="viewDay"
+        @click:date="setDialogDate"
+        @change="updateRange"
+        ></v-calendar>
+        <v-menu
+        v-model="selectedOpen"
+        :close-on-content-click="false"
+        :activator="selectedElement"
+        full-width
+        offset-x
+        >
+          <v-card color="grey lighten-4" :width="350" flat>
+            <v-toolbar :color="selectedEvent.color" dark>
+              <v-btn @click="deleteEvent(selectedEvent.id)" icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+              <div class="flex-grow-1"></div>
+            </v-toolbar>
 
-    <v-card-text>
-      <form v-if="currentlyEditing !== selectedEvent.id">
-        {{ selectedEvent.details }}
-      </form>
-      <form v-else>
-        <textarea-autosize
-        v-model="selectedEvent.details"
-        type="text"
-        style="width: 100%"
-        :min-height="100"
-        placeholder="add note">
-      </textarea-autosize>
-    </form>
-  </v-card-text>
+            <v-card-text>
+              <form v-if="currentlyEditing !== selectedEvent.id">
+                {{ selectedEvent.details }}
+              </form>
+              <form v-else>
+                <v-textarea
+                v-model="selectedEvent.details"
+                type="text"
+                style="width: 100%"
+                :min-height="100"
+                placeholder="add note">
+              </v-textarea>
+            </form>
+          </v-card-text>
 
-  <v-card-actions>
-    <v-btn text color="secondary" @click="selectedOpen = false">
-      close
-    </v-btn>
-    <v-btn v-if="currentlyEditing !== selectedEvent.id" text @click.prevent="editEvent(selectedEvent)">
-      edit
-    </v-btn>
-    <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">
-      Save
-    </v-btn>
-  </v-card-actions>
-</v-card>
-</v-menu>
-</v-sheet>
-</v-col>
-</v-row>
+          <v-card-actions>
+            <v-btn text color="secondary" @click="selectedOpen = false">
+              닫기
+            </v-btn>
+            <v-btn v-if="currentlyEditing !== selectedEvent.id" text @click.prevent="editEvent(selectedEvent)">
+              수정
+            </v-btn>
+            <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">
+              저장
+            </v-btn>
+          </v-card-actions>
+          </v-card>
+        </v-menu>
+      </v-sheet>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -157,7 +157,7 @@ export default {
     details: null,
     start: null,
     end: null,
-    color: '#1976D2', // default event color
+    color: '#1976D2', // 일정의 기본 색깔, 파란색?
     currentlyEditing: null,
     selectedEvent: {},
     selectedElement: null,
@@ -167,6 +167,7 @@ export default {
     dialogDate: false
   }),
   mounted () {
+    console.log('mounted')
     this.getEvents()
   },
   computed: {
@@ -202,6 +203,7 @@ export default {
   },
   methods: {
     async getEvents () {
+      console.log('getEvents')
       const snapshot = await db.collection('calEvent').get()
       const events = []
       snapshot.forEach(doc => {
@@ -216,6 +218,7 @@ export default {
       this.focus = date
     },
     viewDay ({ date }) {
+      console.log('viewDay')
       this.focus = date
       this.type = 'day'
     },
@@ -226,12 +229,14 @@ export default {
       this.focus = this.today
     },
     prev () {
+      alert('prev')
       this.$refs.calendar.prev()
     },
     next () {
       this.$refs.calendar.next()
     },
     async addEvent () {
+      console.log('addEvent')
       if (this.name && this.start && this.end) {
         await db.collection('calEvent').add({
           name: this.name,
@@ -247,7 +252,7 @@ export default {
         this.end = ''
         this.color = ''
       } else {
-        alert('You must enter event name, start, and end time')
+        alert('event name, start, end 를 입력해야합니다')
       }
     },
     editEvent (ev) {
@@ -264,8 +269,11 @@ export default {
       await db.collection('calEvent').doc(ev).delete()
       this.selectedOpen = false
       this.getEvents()
+      console.log('deleteEvent')
     },
     showEvent ({ nativeEvent, event }) {
+      alert('showEvent')
+      console.log('showEvent')
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
