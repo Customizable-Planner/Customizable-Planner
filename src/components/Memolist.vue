@@ -23,14 +23,14 @@
         @click="save"
         z-index=10
         >
-          저장
+          <v-icon color="red">mdi-content-save-outline</v-icon>
         </v-btn>
         <v-btn
         color='#FFFDE7'
         v-on:click="memoDelete"
         z-index=10
         >
-          삭제
+          <v-icon color="red">mdi-trash-can-outline</v-icon>
         </v-btn>
         </button>
       </v-row>

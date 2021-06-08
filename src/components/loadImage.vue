@@ -1,7 +1,12 @@
 <template>
+  <div :class="mode">
+    <button v-on:click="$emit('del-data', item._id)">
+      <v-icon color="red">mdi-trash-can-outline</v-icon>
+    </button>
     <v-card max-height="400px" max-width="400px" v-on:mouseup="imageClick">
-      <v-img :src="imageurl" />
+    <v-img :src="imageurl" />
     </v-card>
+  </div>
 </template>
 
 <script>

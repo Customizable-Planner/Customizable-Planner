@@ -1,6 +1,11 @@
 <template>
-<v-container class="container" v-on:mouseup="todoClick">
-  <h2>Todo List</h2>
+<v-container class="container" v-on:mouseup="todoClick" :class="mode">
+  <h2>
+  Todo List
+  <button class="btn btn-default" type="button" v-on:click="$emit('del-data', id)">
+    <v-icon color="red">mdi-trash-can-outline</v-icon>
+  </button>
+  </h2>
   <div class="input-group" style="margin-bottom:10px;">
     <input type="text" class="form-control" placeholder="입력" v-model="name" v-on:keyup.enter="createTodo(name)">
     <span class="input-group-btn">
@@ -9,12 +14,12 @@
   </div>
     <ul class="list-group">
       <draggable v-model="todos">
-        <li class="list-group-item" v-for="(todo) in todos" v-bind:key="todo._id">
+        <li class="list-group-item" v-for="(todo, index) in todos" v-bind:key="index">
         <v-icon v-if="todo.completed">mdi-check</v-icon>
           {{todo.name}}
           <div class="btn-group pull-right">
-            <v-btn v-if="todo.completed" class="complete completed" outlined small @click="completeTodo(todo._id)">Complete</v-btn>
-            <v-btn v-else class="complete" outlined small @click="completeTodo(todo._id)">UComplete</v-btn>
+            <v-btn v-if="todo.completed" class="complete completed" outlined small @click="completeTodo(index)">Complete</v-btn>
+            <!-- <v-btn v-else class="complete" outlined small @click="completeTodo(index)">UComplete</v-btn> -->
             <v-btn @click="deleteTodo(todo._id)" class="delete" color="secondary" outlined small>Delete</v-btn>
           </div>
         </li>
@@ -65,8 +70,9 @@ export default {
         this.todos = await tododb.find({ id: this.id })
       }
     },
-    async completeTodo (_id) {
-      const istrue = await tododb.find({ _id: _id })
+    async completeTodo (index) {
+      const istrue = await tododb.find({ _id: this.todos[index]._id })
+      console.log('****************************' + istrue)
       let cc = istrue.completed
       if (istrue.completed === true) {
         cc = false
@@ -74,7 +80,7 @@ export default {
         cc = true
       }
       console.log('val eeeeeeeeeeeeeeeeeeeeeeeeeeeee', cc)
-      tododb.update({ _id: _id }, { $set: { completed: cc } })
+      tododb.update({ _id: this.todos[index]._id }, { $set: { completed: cc } })
       this.todos = await tododb.find({ id: this.id })
       console.log('complete Todo ````````````````````````', this.todos)
     },
@@ -108,5 +114,8 @@ export default {
 .dark input{
   background: #5d768f;
   color: #361717;
+}
+.dark {
+  color: white;
 }
 </style>

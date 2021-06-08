@@ -68,8 +68,8 @@
                 w="auto" h="auto"
               >
                 <memolist v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData" z-index=1></memolist>
-                <load-image v-else-if="item.type === 'Image'" v-bind:item="item" v-on:pick-data="pickData"></load-image>
-                <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData">
+                <load-image v-else-if="item.type === 'Image'" v-bind:item="item" v-on:pick-data="pickData" v-on:del-data="delData"></load-image>
+                <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData">
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on">
                       편집
@@ -161,7 +161,7 @@ export default {
     },
     async delData (id) {
       const delId = id
-      await pageInfodb.remove({ dashid: this.sendWhat, _id: delId })
+      await pageInfodb.remove({ dashid: this.sendWhat, _id: delId }, { multi: true })
       this.dashboard = await pageInfodb.find({ dashid: this.sendWhat })
     },
     onActivated () {
