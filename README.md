@@ -16,4 +16,5 @@ yarn electron:serve
 
 ## Contribution
 * 추가할 내용있으면 수정바람
-* [Contribute Guildline]을 참고하세요.
+* [Contribute Guildline](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/Contribution_Guide.md)
+
