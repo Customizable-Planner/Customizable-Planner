@@ -308,7 +308,7 @@ customClick (x, y) {
 ​		( b ) customModule.vue <template>에 삭제버튼이 들어갈 위치에 button element 추가
 
 ```js
-<button class="btn btn-default" type="button" v-on:click="$emit('del-data', id)"><v-icon color="red">mdi-trash-can-outline</v-icon> </button>
+<button class="btn btn-default" type="button" v-on:click="$emit('del-data', id)"><v-icon color="red">mdi-trash-can-outline</v-icon></button>
 ```
 
 
