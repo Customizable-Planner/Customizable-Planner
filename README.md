@@ -284,7 +284,7 @@ components: { Memolist, Todolist, LoadImage, Toggle, customModule }
 {
     path: '/custommodule,
     name: 'customModule',
-    component: () => import( '../components/customModule.vue')
+    component: () => import('../components/customModule.vue')
 }
 ```
 ​	
@@ -304,7 +304,7 @@ props: ['id'],
 
 ```js
 customClick (x, y) {
-    const customindex= { id: this.id, type: 'customModule', x: x, y: y }
+    const customindex = { id: this.id, type: 'customModule', x: x, y: y }
     this.$emit('pick-data', customindex)
 }
 ```
