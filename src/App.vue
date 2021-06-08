@@ -7,14 +7,15 @@
             color="grey darken-1"
             size="32"
           ></v-avatar>
-          <v-btn
+          <button
+            style="padding: 20px; font-size: 18px"
             v-for="(dashboard, index) in dashboards"
             :key="index"
             text
             @click="clickedNum(index)"
           >
             {{ dashboard.title }}
-          </v-btn>
+          </button>
           <v-btn
           small dark fab text color="purple"
           @click="addDashboard">
@@ -59,7 +60,7 @@ export default {
       }
     ],
     index: 1,
-    mode: 'dark',
+    mode: 'app',
     sendWhat: 0
   }),
   created () {

@@ -6,6 +6,18 @@
             <v-sheet rounded="lg" class="litem" :class="mode">
               <v-list color="transparent">
                 <v-list-item
+                link>
+                  <v-list-item-content :class="mode">
+                    <v-list-item-title
+                      color="error"
+                      @click="overlay = !overlay"
+                      :class="mode"
+                    >
+                      Image
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
                   v-for="(module, index) in modules"
                   :key="index"
                   link
@@ -15,15 +27,9 @@
                     @click="addModule(index)">
                     {{ module }}
                     </v-list-item-title>
+
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item
-                  color="error"
-                  @click="overlay = !overlay"
-                >
-                  IMG UPLOAD
-                </v-list-item>
-
                 <v-overlay :value="overlay">
                   <v-file-input
                   v-model="insertedImage"
@@ -170,7 +176,6 @@ export default {
     sendWhat: 0,
     modules: [
       'Memolist',
-      'Image',
       'Todolist',
       'JustCalendar',
       'GoogleCalendar'
