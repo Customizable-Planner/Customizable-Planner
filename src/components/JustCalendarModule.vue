@@ -1,6 +1,9 @@
 <template>
+  <v-container class="container" v-on:mouseup="customClick" :class="mode">
   <v-row class="fill-height">
     <v-col>
+      Just Calendar
+      <button class="btn btn-default" type="button" v-on:click="$emit('del-data', id)"><v-icon color="red">mdi-trash-can-outline</v-icon></button>
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn color="primary" dark @click.stop="dialog = true">
@@ -138,11 +141,13 @@
       </v-sheet>
     </v-col>
   </v-row>
+  </v-container>
 </template>
 
 <script>
 import { db } from '@/main'
 export default {
+  props: ['id'],
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
@@ -295,7 +300,12 @@ export default {
       return d > 3 && d < 21
         ? 'th'
         : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
+    },
+    customClick (x, y) {
+      const customindex = { id: this.id, type: 'JustCalendar', x: x, y: y }
+      this.$emit('pick-data', customindex)
     }
+
   }
 }
 </script>

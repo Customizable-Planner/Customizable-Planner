@@ -40,6 +40,16 @@ const routes = [
         path: '/loadImage',
         name: 'loadImage',
         component: LoadImage
+      },
+      {
+        path: '/justCalendarModule',
+        name: 'justCalendarModule',
+        component: () => import('../components/JustCalendarModule.vue')
+      },
+      {
+        path: '/newGoogleCalendarModule',
+        name: 'newGoogleCalendarModule',
+        component: () => import('../components/NewGoogleCalendarModule.vue')
       }
     ]
   },

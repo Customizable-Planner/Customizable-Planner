@@ -1,6 +1,9 @@
 <template>
+  <v-container class="container" v-on:mouseup="customClick" :class="mode">
   <v-row class="fill-height">
     <v-col>
+      Google Calendar
+      <button class="btn btn-default" type="button" v-on:click="$emit('del-data', id)"><v-icon color="red">mdi-trash-can-outline</v-icon></button>
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn color="primary" dark @click.stop="dialog = true">
@@ -46,11 +49,11 @@
         <v-card>
           <v-container>
             <v-form @submit.prevent="addEvent">
-              <v-text-field v-model="name" type="text" label="event name (required)"></v-text-field>
-              <v-text-field v-model="details" type="text" label="detail"></v-text-field>
-              <v-text-field v-model="start" type="date" label="start (required)"></v-text-field>
-              <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
-              <v-text-field v-model="color" type="color" label="color (click to open color menu)"></v-text-field>
+              <v-text-field v-model="name" type="text" label="일정 제목 (필수)"></v-text-field>
+              <v-text-field v-model="details" type="text" label="설명"></v-text-field>
+              <v-text-field v-model="start" type="date" label="시작 날짜 (필수)"></v-text-field>
+              <v-text-field v-model="end" type="date" label="종료 날짜 (필수)"></v-text-field>
+              <v-text-field v-model="color" type="color" label="색상 (클릭 시 색상선택 가능)"></v-text-field>
               <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog = false">
                 일정 추가
               </v-btn>
@@ -63,11 +66,11 @@
         <v-card>
           <v-container>
             <v-form @submit.prevent="addEvent">
-              <v-text-field v-model="name" type="text" label="event name (required)"></v-text-field>
-              <v-text-field v-model="details" type="text" label="detail"></v-text-field>
-              <v-text-field v-model="start" type="date" label="start (required)"></v-text-field>
-              <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
-              <v-text-field v-model="color" type="color" label="color (click to open color menu)"></v-text-field>
+              <v-text-field v-model="name" type="text" label="일정 제목 (필수)"></v-text-field>
+              <v-text-field v-model="details" type="text" label="설명"></v-text-field>
+              <v-text-field v-model="start" type="date" label="시작 날짜 (필수)"></v-text-field>
+              <v-text-field v-model="end" type="date" label="종료 날짜 (필수)"></v-text-field>
+              <v-text-field v-model="color" type="color" label="색상 (클릭 시 색상선택 가능)"></v-text-field>
               <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog = false">
                 일정 추가
               </v-btn>
@@ -117,7 +120,7 @@
                 type="text"
                 style="width: 100%"
                 :min-height="100"
-                placeholder="add note">
+                placeholder="설명 추가">
               </v-textarea>
             </form>
           </v-card-text>
@@ -138,6 +141,7 @@
       </v-sheet>
     </v-col>
   </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -176,6 +180,7 @@ function getAccessToken (oAuth2Client) {
 }
 */
 export default {
+  props: ['id'],
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
@@ -306,11 +311,11 @@ export default {
         description: this.details,
         colorId: 1,
         start: {
-          dateTime: this.start + 'T14:00:00+09:00',
+          date: this.start,
           timeZone: ''
         },
         end: {
-          dateTime: this.end + 'T16:00:00+09:00',
+          date: this.end,
           timeZone: ''
         }
       }
@@ -435,7 +440,12 @@ export default {
       return d > 3 && d < 21
         ? 'th'
         : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
+    },
+    customClick (x, y) {
+      const customindex = { id: this.id, type: 'GoogleCalendar', x: x, y: y }
+      this.$emit('pick-data', customindex)
     }
+
   }
 }
 </script>

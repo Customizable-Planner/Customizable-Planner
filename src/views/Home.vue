@@ -6,6 +6,18 @@
             <v-sheet rounded="lg" class="litem" :class="mode">
               <v-list color="transparent">
                 <v-list-item
+                link>
+                  <v-list-item-content :class="mode">
+                    <v-list-item-title
+                      color="error"
+                      @click="overlay = !overlay"
+                      :class="mode"
+                    >
+                      Image
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
                   v-for="(module, index) in modules"
                   :key="index"
                   link
@@ -15,15 +27,9 @@
                     @click="addModule(index)">
                     {{ module }}
                     </v-list-item-title>
+
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item
-                  color="error"
-                  @click="overlay = !overlay"
-                >
-                  IMG UPLOAD
-                </v-list-item>
-
                 <v-overlay :value="overlay">
                   <v-file-input
                   v-model="insertedImage"
@@ -69,17 +75,9 @@
               >
                 <memolist v-if="item.type === 'Memolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData" z-index=1></memolist>
                 <load-image v-else-if="item.type === 'Image'" v-bind:item="item" v-on:pick-data="pickData" v-on:del-data="delData"></load-image>
-                <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData">
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on">
-                      편집
-                    </v-btn>
-                    <v-btn v-if="active" @click="deleteTodolist">삭제</v-btn>
-                  </template>
-                </todolist>
-              </vue-draggable-resizable>
-              <vue-draggable-resizable>
-                <new-google-calendar-module/>
+                <todolist v-else-if="item.type === 'Todolist'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></todolist>
+                <just-calendar-module v-else-if="item.type === 'JustCalendar'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></just-calendar-module>
+                <new-google-calendar-module v-else-if="item.type === 'GoogleCalendar'" v-bind:id="item._id" v-on:pick-data="pickData" v-on:del-data="delData"></new-google-calendar-module>
               </vue-draggable-resizable>
             </v-sheet>
           </v-col>
@@ -93,6 +91,7 @@ import LoadImage from '../components/loadImage.vue'
 import Memolist from '../components/Memolist.vue'
 import Todolist from '../components/Todolist.vue'
 import Toggle from '../components/Toggle.vue'
+import JustCalendarModule from '../components/JustCalendarModule.vue'
 import NewGoogleCalendarModule from '../components/NewGoogleCalendarModule.vue'
 import { indexBus, modeBus } from '../main'
 // import CalendarModule from '../components/CalendarModule.vue'  기존 달력 모듈 말고 v-cal로 사용함
@@ -101,7 +100,7 @@ const pageInfodb = Datastore.create('/path/to/pageInfodb.db') // 어떤 번호�
 // pageinfo db 구성요소 = 모듈type / poseX / poseY / _id( 이 값은 고유값 )
 export default {
   props: ['mode'],
-  components: { Memolist, Todolist, LoadImage, Toggle, NewGoogleCalendarModule },
+  components: { Memolist, Todolist, LoadImage, Toggle, JustCalendarModule, NewGoogleCalendarModule },
   async created () {
     indexBus.$on('sendNum', async (info) => {
       this.sendWhat = info
@@ -131,16 +130,7 @@ export default {
       console.log(this.dashboard)
     },
     async addModule (index) {
-      if (index === 0) {
-        // this.memos.push({ memo: 'memo' })
-        await pageInfodb.insert({ type: 'Memolist', poseX: 0, poseY: 0, dashid: this.sendWhat })
-      } else if (index === 2) {
-        // this.todolists.push({ todo: 'todo' })
-        await pageInfodb.insert({ type: 'Todolist', poseX: 0, poseY: 0, dashid: this.sendWhat })
-      } else if (index === 1) {
-        // this.images.push({ image: 'image' })
-        await pageInfodb.insert({ type: 'Image', poseX: 0, poseY: 0, dashid: this.sendWhat })
-      }
+      await pageInfodb.insert({ type: this.modules[index], poseX: 0, poseY: 0, dashid: this.sendWhat })
       this.dashboard = await pageInfodb.find({ dashid: this.sendWhat })
       console.log(this.dashboard)
     },
@@ -186,9 +176,9 @@ export default {
     sendWhat: 0,
     modules: [
       'Memolist',
-      'Image',
       'Todolist',
-      'Calendar'
+      'JustCalendar',
+      'GoogleCalendar'
     ],
     // memos: [],
     // todolists: [],

@@ -7,10 +7,8 @@
             v-model="switchMode"
             @click="$emit('toggle')"
             ></v-switch>
-            <v-input
-            dense>
-                <h1>{{ this.switchMode ? 'dark' : 'app' }}</h1>
-            </v-input>
+            <h1 v-if="switchMode" style="margin: 10px; color: white">Dark</h1>
+            <h1 v-else style="margin: 10px; color: black">App</h1>
         </v-row>
     </div>
 </template>
@@ -18,7 +16,7 @@
 export default {
   props: ['mode'],
   data: () => ({
-    switchMode: true
+    switchMode: false
   }),
   computed: {
     messages () {
