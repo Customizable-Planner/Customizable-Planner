@@ -2,7 +2,7 @@
 # :calendar: Customizable Planner
 
 Appmode          |  Dark
-:-------------------------:|:-------------------------:
+:--------------------------:|:-------------------------:
 ![demo1](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/demo1.png)  |  ![demo2](https://github.com/Customizable-Planner/Customizable-Planner/blob/final/demo2.png)
 
 ## :memo: 제공하는 기능
